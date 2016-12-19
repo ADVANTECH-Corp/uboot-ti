@@ -1,2 +1,0 @@
-# ti-uboot
-ti-uboot
