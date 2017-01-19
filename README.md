@@ -7,7 +7,7 @@ This repository contains u-boot source tree for Advantech RISC Devices.
 
 It is based on TI's u-boot trees at https://git.ti.com/ti-u-boot/.
 
-u-boot releases version:
+u-boot releases branch:
 
 Yocto 2.1
 ----------
