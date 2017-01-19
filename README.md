@@ -1,4 +1,4 @@
-ti-uboot
+uboot-ti
 ==========
 
 Advantech RISC platform Devices u-boot tree for TI.
