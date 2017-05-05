@@ -18,6 +18,21 @@ config TARGET_AM57XX_EVM
 	bool "AM57XX"
 	select TI_I2C_BOARD_DETECT
 
+config TARGET_EBC_GF33A1_2G
+	bool "Advantech EBC-GF33 platform for hw version a1"
+	select TI_I2C_BOARD_DETECT
+	select TARGET_ADVANTECH
+
+config TARGET_EBC_GF33B1_2G
+	bool "Advantech EBC-GF33 platform for hw version b1"
+	select TI_I2C_BOARD_DETECT
+	select TARGET_ADVANTECH
+
+config TARGET_ROM7510A1_2G
+	bool "Advantech ROM7510 platform for hw version a1"
+	select TI_I2C_BOARD_DETECT
+	select TARGET_ADVANTECH
+
 endchoice
 
 config SYS_SOC
@@ -27,8 +42,9 @@ source "board/compulab/cm_t54/Kconfig"
 source "board/ti/omap5_uevm/Kconfig"
 source "board/ti/dra7xx/Kconfig"
 source "board/ti/am57xx/Kconfig"
+source "board/ti/advantech/Kconfig"
 
-if TARGET_DRA7XX_EVM || TARGET_AM57XX_EVM
+if TARGET_DRA7XX_EVM || TARGET_AM57XX_EVM || TARGET_ADVANTECH
 menu "Voltage Domain OPP selections"
 
 choice

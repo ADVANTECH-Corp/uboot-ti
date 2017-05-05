@@ -788,7 +788,7 @@ U_BOOT_I2C_ADAP_COMPLETE(omap24_1, omap24_i2c_init, omap24_i2c_probe,
 #endif
 
 U_BOOT_I2C_ADAP_COMPLETE(omap24_2, omap24_i2c_init, omap24_i2c_probe,
-			 omap24_i2c_read, omap24_i2c_write, NULL,
+			 omap24_i2c_read, omap24_i2c_write, omap24_i2c_setspeed,
 			 CONFIG_SYS_OMAP24_I2C_SPEED2,
 			 CONFIG_SYS_OMAP24_I2C_SLAVE2,
 			 2)

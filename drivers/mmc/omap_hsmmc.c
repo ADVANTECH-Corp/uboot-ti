@@ -252,7 +252,7 @@ static unsigned char mmc_board_init(struct mmc *mmc)
 #endif
 #if defined(CONFIG_OMAP54XX) && defined(CONFIG_PALMAS_POWER)
 	if (mmc->block_dev.devnum == 0)
-		omap5_pbias_config(mmc, LDO_VOLT_3V0);
+		omap5_pbias_config(mmc, LDO_VOLT_3V3);
 #endif
 
 	return 0;

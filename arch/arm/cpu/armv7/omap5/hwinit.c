@@ -390,6 +390,7 @@ void omap_die_id(unsigned int *die_id)
 	die_id[3] = readl((*ctrl)->control_std_fuse_die_id_3);
 }
 
+#ifndef CONFIG_C8051_WATCHDOG
 void reset_cpu(ulong ignored)
 {
 	u32 omap_rev = omap_revision();
@@ -403,6 +404,7 @@ void reset_cpu(ulong ignored)
 	else
 		writel(PRM_RSTCTRL_RESET, (*prcm)->prm_rstctrl);
 }
+#endif
 
 u32 warm_reset(void)
 {

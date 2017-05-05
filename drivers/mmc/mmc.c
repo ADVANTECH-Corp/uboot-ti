@@ -2440,3 +2440,25 @@ int mmc_set_rst_n_function(struct mmc *mmc, u8 enable)
 			  enable);
 }
 #endif
+
+#if defined(CONFIG_SPL_SPI_SUPPORT) && defined(CONFIG_TARGET_ADVANTECH)
+static int adv_mmc_register_idx = -1;
+void mmc_adv_initialize(bd_t *bis, int mmc_idx)
+{
+	if(!mmc_idx){
+		INIT_LIST_HEAD(&mmc_devices);
+		cur_dev_num = 0;
+	}
+
+	if(mmc_idx <= adv_mmc_register_idx)
+		return;
+
+	if(mmc_idx >= 0 && mmc_idx < CONFIG_MMC_DEVICE_MAX){
+		omap_mmc_init(mmc_idx, 0, 0, -1, -1);
+	}
+
+	/* Reset the fat_register variable! */	
+	spl_fat_register_init();
+	adv_mmc_register_idx = mmc_idx;
+}
+#endif

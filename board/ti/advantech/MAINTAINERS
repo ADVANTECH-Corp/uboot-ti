@@ -1,0 +1,6 @@
+Advantech platform
+M:	yanwei.cao <yanwei.cao@advantech.com.cn>
+S:	Maintained
+F:	board/ti/advantech/
+F:	include/configs/am57xx_xxx.h
+F:	configs/am57xx_xxx_defconfig

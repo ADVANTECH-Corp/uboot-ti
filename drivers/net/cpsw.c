@@ -1418,12 +1418,17 @@ static int cpsw_eth_ofdata_to_platdata(struct udevice *dev)
 		priv->data.slave_data[1].slave_reg_ofs = CPSW_SLAVE1_OFFSET;
 		priv->data.slave_data[1].sliver_reg_ofs = CPSW_SLIVER1_OFFSET;
 	}
-
+#ifndef CONFIG_TARGET_ADVANTECH 
+	/* We mask this for not display any warning about mac not match
+	with the hardware mac. beacuse we don't care about the hardware 
+	MAC.    --Qing
+	*/
 	ret = ti_cm_get_macid(dev, active_slave, pdata->enetaddr);
 	if (ret < 0) {
 		error("cpsw read efuse mac failed\n");
 		return ret;
 	}
+#endif
 
 	pdata->phy_interface = priv->data.slave_data[active_slave].phy_if;
 	if (pdata->phy_interface == -1) {

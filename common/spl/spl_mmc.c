@@ -270,6 +270,9 @@ int spl_mmc_load_image(u32 boot_device)
 	u32 boot_mode;
 	int err = 0;
 	__maybe_unused int part;
+#ifdef CONFIG_TARGET_ADVANTECH
+	int  * bootdevice = (int *)CONFIG_SPL_PARAM_ADDR;
+#endif
 
 	err = spl_mmc_find_device(&mmc, boot_device);
 	if (err)
@@ -311,18 +314,18 @@ int spl_mmc_load_image(u32 boot_device)
 		if (!spl_start_uboot()) {
 			err = mmc_load_image_raw_os(mmc);
 			if (!err)
-				return err;
+				goto out;
 		}
 
 		err = mmc_load_image_raw_partition(mmc,
 			CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_PARTITION);
 		if (!err)
-			return err;
+			goto out;
 #if defined(CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_SECTOR)
 		err = mmc_load_image_raw_sector(mmc,
 			CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_SECTOR);
 		if (!err)
-			return err;
+			goto out;
 #endif
 		/* If RAW mode fails, try FS mode. */
 	case MMCSD_MODE_FS:
@@ -330,7 +333,7 @@ int spl_mmc_load_image(u32 boot_device)
 
 		err = spl_mmc_do_fs_boot(mmc);
 		if (!err)
-			return err;
+			goto out;
 
 		break;
 	case MMCSD_MODE_UNDEFINED:
@@ -340,5 +343,114 @@ int spl_mmc_load_image(u32 boot_device)
 #endif
 	}
 
+out:
+#ifdef CONFIG_TARGET_ADVANTECH
+	/* In there, we just only set bootdevice is 0. because our
+	   default is boot from SPI. about MMC boot, we just as factory
+       recovery mode. So, no need to poll the availiable MMC card.
+       Once SD is inserted(When No adv loader in SPI flash), you must ensure
+       that there updated OS in your SD card!
+   */
+	*bootdevice = 0;	
+#endif
 	return err;
 }
+
+/* 
+* We add this for adv-loader.
+*/
+#if defined(CONFIG_SPL_SPI_SUPPORT) && defined(CONFIG_TARGET_ADVANTECH)
+static int mmc_adv_load_image_raw(struct mmc *mmc)
+{
+	int err = 0;
+
+#ifdef CONFIG_SPL_OS_BOOT
+	if (!spl_start_uboot()) {
+		err = mmc_load_image_raw_os(mmc);
+		if (!err)
+			return err;
+	}
+#endif
+#if defined(CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_PARTITION)
+	err = mmc_load_image_raw_partition(mmc,
+		CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_PARTITION);
+	if (!err)
+		return err;
+#elif defined(CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_SECTOR)
+	err = mmc_load_image_raw_sector(mmc,
+		CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_SECTOR);
+	if (!err)
+		return err;
+#endif
+
+	return err;
+}
+
+static int mmc_adv_load_image_fat(struct mmc *mmc)
+{
+	int err = 0;
+
+#ifdef CONFIG_SYS_MMCSD_FS_BOOT_PARTITION
+#ifdef CONFIG_SPL_FAT_SUPPORT
+#ifdef CONFIG_SPL_FS_LOAD_PAYLOAD_NAME
+	err = spl_load_image_fat(&mmc->block_dev,
+				 CONFIG_SYS_MMCSD_FS_BOOT_PARTITION,
+				 CONFIG_SPL_FS_LOAD_PAYLOAD_NAME);
+	if (!err)
+		return err;
+#endif
+#endif
+#endif
+	/* Currently, we only support fat load in fs mode. */
+	return err;
+}
+/* Advantech adv loader...*/
+int spl_adv_load_image(void)
+{
+	struct mmc *mmc;
+	int err;
+	int idx = 0, rdx = 0;
+	int  * bootdevice = (int *)CONFIG_SPL_PARAM_ADDR;
+	__maybe_unused int part;
+
+	for (idx = 0 ; idx < CONFIG_MMC_DEVICE_MAX; idx++){
+		mmc_adv_initialize(gd->bd, idx);
+		
+		mmc = find_mmc_device(idx);
+		if (!mmc) {
+			puts("spl: mmc device not found\n");
+			hang();
+		}	
+		err = mmc_init(mmc);
+		if (err) {
+			debug("spl: mmc init failed with error: %d\n", err);
+			/* If current mmc device is not available, select the next.*/
+			rdx++;
+			continue ;
+		}
+		/* Load the boot image */
+#ifdef CONFIG_SPL_FAT_SUPPORT
+		debug("spl: mmc boot mode: fs\n");		
+		if(mmc_adv_load_image_fat(mmc)){
+			/* If current mmc device no image, select the next.*/
+			continue ;
+		}
+		
+		*bootdevice = rdx > 0 ? idx + CONFIG_MMC_DEVICE_MAX -1 : idx; 
+		return 0;	
+#else
+		debug("spl: mmc boot mode: raw\n");
+		if(mmc_adv_load_image_raw(mmc)){
+			/* If current mmc device no image, select the next.*/
+			continue ;
+		}
+
+		/* Currently, fs is no differance with raw mode. */
+		*bootdevice = rdx > 0 ? idx + CONFIG_MMC_DEVICE_MAX -1 : idx; 	 
+		return 0;
+#endif
+	}
+
+	return 1;
+}
+#endif

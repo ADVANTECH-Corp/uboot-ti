@@ -112,6 +112,11 @@ dtb-$(CONFIG_TARGET_DRA7XX_EVM) += dra72-evm.dtb dra7-evm.dtb	\
 dtb-$(CONFIG_TARGET_AM57XX_EVM) += am57xx-beagle-x15.dtb \
 	am572x-idk.dtb	\
 	am571x-idk.dtb
+
+dtb-$(CONFIG_TARGET_ADVANTECH) += am57xx-gf33a1.dtb \
+       am57xx-gf33b1.dtb  \
+       am57xx-rom7510a1.dtb
+
 dtb-$(CONFIG_TARGET_STV0991) += stv0991.dtb
 
 dtb-$(CONFIG_LS102XA) += ls1021a-qds-duart.dtb \

@@ -1,0 +1,14 @@
+menu "Watchdog Support"
+
+config WATCHDOG
+	bool "Enable watchdog"
+	help
+	  Enable watchdog.
+	  
+config C8051_WATCHDOG
+	bool "Enable C8051 watchdog drivers"
+	depends on WATCHDOG
+	help
+	  Enable c8051 watchdog.
+
+endmenu

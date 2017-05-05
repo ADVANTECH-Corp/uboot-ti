@@ -343,7 +343,11 @@ static int spl_load_image(u32 boot_device)
 #endif
 #ifdef CONFIG_SPL_SPI_SUPPORT
 	case BOOT_DEVICE_SPI:
+#ifdef  CONFIG_TARGET_ADVANTECH
+		return spl_adv_load_image();
+#else
 		return spl_spi_load_image();
+#endif
 #endif
 #ifdef CONFIG_SPL_ETH_SUPPORT
 	case BOOT_DEVICE_CPGMAC:

@@ -66,6 +66,10 @@
 #define DFUARGS
 #endif
 
+#ifndef ETHADDR
+#define ETHADDR
+#endif
+
 #define CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	DEFAULT_LINUX_BOOT_ENV \
@@ -123,11 +127,18 @@
 			"setenv fdtfile am571x-idk-lcd-osd.dtb; fi;" \
 		"if test $board_name = am571x_idk && test $idk_lcd = osd101t2587; then " \
 			"setenv fdtfile am571x-idk-lcd-osd101t2587.dtb; fi;" \
+		"if test $board_name = gf33a1; then " \
+			"setenv fdtfile am57xx-gf33a1.dtb; fi;" \
+		"if test $board_name = gf33b1; then " \
+			"setenv fdtfile am57xx-gf33b1.dtb; fi;" \
+		"if test $board_name = rom7510a1; then " \
+			"setenv fdtfile am57xx-rom7510a1.dtb; fi;" \
 		"if test $fdtfile = undefined; then " \
 			"echo WARNING: Could not determine device tree to use; fi; \0" \
 	"loadfdt=load mmc ${bootpart} ${fdtaddr} ${bootdir}/${fdtfile};\0" \
 	DFUARGS \
 	NETARGS \
+	ETHADDR \
 
 #define CONFIG_BOOTCOMMAND \
 	"if test ${dofastboot} -eq 1; then " \
@@ -136,7 +147,6 @@
 		"echo Booting into fastboot ...; fastboot 0;" \
 	"fi;" \
 	"run findfdt; " \
-	"run envboot; " \
 	"run mmcboot;" \
 	"setenv mmcdev 1; " \
 	"setenv bootpart 1:2; " \
