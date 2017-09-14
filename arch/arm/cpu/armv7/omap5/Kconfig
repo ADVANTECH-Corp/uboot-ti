@@ -33,6 +33,11 @@ config TARGET_ROM7510A1_2G
 	select TI_I2C_BOARD_DETECT
 	select TARGET_ADVANTECH
 
+config TARGET_ROM7510A2_2G
+        bool "Advantech ROM7510 platform for hw version a2"
+        select TI_I2C_BOARD_DETECT
+        select TARGET_ADVANTECH
+
 endchoice
 
 config SYS_SOC

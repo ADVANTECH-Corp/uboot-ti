@@ -18,6 +18,8 @@
 #include "mux_gf33b1.h"
 #elif defined(CONFIG_TARGET_ROM7510A1_2G)
 #include "mux_rom7510a1.h"
+#elif defined(CONFIG_TARGET_ROM7510A2_2G)
+#include "mux_rom7510a2.h"
 #endif
 
 #endif /* _MUX_DATA_ADVANTECH_H_ */

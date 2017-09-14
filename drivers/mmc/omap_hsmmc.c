@@ -483,14 +483,14 @@ static int omap_hsmmc_set_signal_voltage(struct mmc *mmc)
 		if (!(val & VS30_3V0SUP))
 			return -EOPNOTSUPP;
 
-		omap_hsmmc_conf_bus_power(mmc, IOV_3V0);
+		omap_hsmmc_conf_bus_power(mmc, IOV_3V3);
 
 		val = readl(&mmc_base->ac12);
 		val &= ~AC12_V1V8_SIGEN;
 		writel(val, &mmc_base->ac12);
 
 #if defined(CONFIG_OMAP54XX) && defined(CONFIG_PALMAS_POWER)
-		omap5_pbias_config(mmc, LDO_VOLT_3V0);
+		omap5_pbias_config(mmc, LDO_VOLT_3V3);
 #endif
 	} else if (mmc->signal_voltage == MMC_SIGNAL_VOLTAGE_180) {
 		val = readl(&mmc_base->capa);

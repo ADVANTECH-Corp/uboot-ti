@@ -36,6 +36,15 @@ config SYS_CONFIG_NAME
 	default "am57xx_rom7510a1"
 endif
 
+if TARGET_ROM7510A2_2G
+config SYS_BOARD_NAME
+        string
+        default "rom7510a2"
+
+config SYS_CONFIG_NAME
+        default "am57xx_rom7510a2"
+endif
+
 config CONS_INDEX
         int "UART used for console"
         range 1 6
