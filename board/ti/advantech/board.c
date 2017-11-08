@@ -497,6 +497,58 @@ static void  board_set_boot_device(void)
 {
     int dev = (*(int *)CONFIG_SPL_PARAM_ADDR);
 
+#ifdef CONFIG_ADV_OTA_SUPPORT
+    int bcb_flag;
+   bcb_flag= recovery_check_and_clean_command();
+   printf("+++ %s %dbcb_flag %d\n",__func__, __LINE__, bcb_flag);
+    switch(dev) {
+	case 0:
+        /* booting from MMC0(SD)*/
+		printf("booting from SD\n");
+		setenv("mmcdev", "0");
+		if(bcb_flag)
+		{
+			setenv("finduuid","part uuid mmc 0:3 uuid");
+			setenv("bootpart","0:3");
+		}
+		else
+		{
+			setenv("finduuid","part uuid mmc 0:2 uuid");
+			setenv("bootpart","0:2");
+		}
+		break;
+	case 1:
+		/* booting from MMC1(Nand)& No image in SD*/
+		printf("booting from MMC1\n");
+		setenv("mmcdev", "1");
+		if(bcb_flag)
+		{
+			setenv("finduuid","part uuid mmc 1:3 uuid");
+			setenv("bootpart","1:3");
+		}
+		else
+		{
+			setenv("finduuid","part uuid mmc 1:2 uuid");
+			setenv("bootpart","1:2");
+		}
+		break;
+	default:
+		/* booting from MMC1(Nand) & no insert SD.*/
+		printf("booting from MMC1\n");
+		if(bcb_flag)
+		{
+			setenv("finduuid","part uuid mmc 1:3 uuid");
+			setenv("bootpart","1:3");
+		}
+		else
+		{
+			setenv("finduuid","part uuid mmc 1:2 uuid");
+			setenv("bootpart","1:2");
+		}
+		break;
+	}
+
+#else
     switch(dev) {
 	case 0:
         /* booting from MMC0(SD)*/
@@ -517,6 +569,7 @@ static void  board_set_boot_device(void)
 		setenv("finduuid","part uuid mmc 1:2 uuid");
 		break;
 	}
+#endif
 	
 }
 #endif

@@ -10,6 +10,8 @@
 #include <blk.h>
 #include <ide.h>
 
+typedef struct blk_desc blk_desc_t;
+
 struct block_drvr {
 	char *name;
 	struct blk_desc* (*get_dev)(int dev);
