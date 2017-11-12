@@ -129,7 +129,6 @@ int rw_block(bool bread, char **ppblock,
 
 	if (!bread && (pblock_write == NULL))
 		return -1;
-	printf("+++ %s %dBlock device %d \n",__func__, __LINE__, g_mmc_id);
 
 	blk_size = get_block_size("mmc", g_mmc_id,
 		CONFIG_ANDROID_MISC_PARTITION_MMC);
@@ -154,10 +153,6 @@ int rw_block(bool bread, char **ppblock,
 	argv[3] = addr_str;
 	argv[4] = block_begin_str;
 	argv[5] = cnt_str;
-	for(int i=0;i<6;i++)
-	{
-		printf("%s %d argv[%d] %s\n",__func__,__LINE__,i,argv[i]);
-	}
 
 	if (bread) {
 		p_block = (char *)memalign(ALIGN_BYTES, blk_size * block_cnt);

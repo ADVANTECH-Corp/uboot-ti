@@ -500,7 +500,6 @@ static void  board_set_boot_device(void)
 #ifdef CONFIG_ADV_OTA_SUPPORT
     int bcb_flag;
    bcb_flag= recovery_check_and_clean_command();
-   printf("+++ %s %dbcb_flag %d\n",__func__, __LINE__, bcb_flag);
     switch(dev) {
 	case 0:
         /* booting from MMC0(SD)*/
