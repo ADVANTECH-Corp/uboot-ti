@@ -133,6 +133,8 @@
 			"setenv fdtfile am57xx-gf33b1.dtb; fi;" \
 		"if test $board_name = rom7510a1; then " \
 			"setenv fdtfile am57xx-rom7510a1.dtb; fi;" \
+                "if test $board_name = rom7510a2; then " \
+                         "setenv fdtfile am57xx-rom7510a2.dtb; fi;" \
 		"if test $fdtfile = undefined; then " \
 			"echo WARNING: Could not determine device tree to use; fi; \0" \
 	"loadfdt=load mmc ${bootpart} ${fdtaddr} ${bootdir}/${fdtfile};\0" \
