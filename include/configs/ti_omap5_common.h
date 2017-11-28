@@ -142,6 +142,13 @@
 	NETARGS \
 	ETHADDR \
 
+#ifndef CONFIG_BOOTARGS_BOARD
+#define CONFIG_BOOTARGS_BOARD
+#endif
+#define CONFIG_BOOTARGS  "androidboot.serialno=${serial#} " \
+	CONFIG_BOOTARGS_BOARD
+
+
 #define CONFIG_BOOTCOMMAND \
 	"if test ${dofastboot} -eq 1; then " \
 		"echo Boot fastboot requested, resetting dofastboot ...;" \
@@ -149,6 +156,7 @@
 		"echo Booting into fastboot ...; fastboot 0;" \
 	"fi;" \
 	"run findfdt; " \
+	"run envboot; " \
 	"run mmcboot;" \
 	"setenv mmcdev 1; " \
 	"setenv bootpart 1:2; " \

@@ -18,7 +18,8 @@
 #endif
 
 #define CONFIG_BCB_SUPPORT
-#define CONFIG_ADV_OTA_SUPPORT
+/* Not need OTA function ,so mask this define */
+/* #define CONFIG_ADV_OTA_SUPPORT */
 #define CONFIG_CMD_READ
 
 #define CONFIG_IODELAY_RECALIBRATION
@@ -47,6 +48,9 @@
 
 #define ETHADDR \
 	"ethaddr=00:01:02:03:04:05\0"
+#define CONFIG_BOOTARGS_BOARD		"console=ttyS2,115200 " \
+					"androidboot.console=ttyS2 " \
+					"androidboot.hardware=am57xevmboard"
 
 #include <configs/ti_omap5_common.h>
 
