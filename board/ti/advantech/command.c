@@ -67,7 +67,6 @@ int recovery_check_and_clean_command(void)
 {
 	int ret;
 	ret = read_command(command);
-	printf("%s %d command: %s\n",__func__,__LINE__,command);
 	if (ret < 0) {
 		printf("first read command failed and try to read again\n");
 		ret = read_command(command);
