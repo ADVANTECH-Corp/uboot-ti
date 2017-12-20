@@ -496,25 +496,28 @@ int ft_board_setup(void *blob, bd_t *bd)
 static void  board_set_boot_device(void)
 {
     int dev = (*(int *)CONFIG_SPL_PARAM_ADDR);
+    int bcb_flag;
 
 #ifdef CONFIG_ADV_OTA_SUPPORT
-    int bcb_flag;
-   bcb_flag= recovery_check_and_clean_command();
+    if (dev != 0)
+    {
+        bcb_flag= recovery_check_and_clean_command();
+    }
     switch(dev) {
 	case 0:
         /* booting from MMC0(SD)*/
 		printf("booting from SD\n");
 		setenv("mmcdev", "0");
-		if(bcb_flag)
-		{
-			setenv("finduuid","part uuid mmc 0:3 uuid");
-			setenv("bootpart","0:3");
-		}
-		else
-		{
+		//if(bcb_flag)
+		//{
+			//setenv("finduuid","part uuid mmc 0:3 uuid");
+			//setenv("bootpart","0:3");
+		//}
+		//else
+		//{
 			setenv("finduuid","part uuid mmc 0:2 uuid");
 			setenv("bootpart","0:2");
-		}
+		//}
 		break;
 	case 1:
 		/* booting from MMC1(Nand)& No image in SD*/
