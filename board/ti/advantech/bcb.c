@@ -124,6 +124,8 @@ int rw_block(bool bread, char **ppblock,
 	uint block_cnt = 0;
 	char *p_block = NULL;
 
+	g_mmc_id = 1;
+
 	if (bread && ((ppblock == NULL) || (pblksize == NULL)))
 		return -1;
 
