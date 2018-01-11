@@ -19,22 +19,22 @@ config TARGET_AM57XX_EVM
 	select TI_I2C_BOARD_DETECT
 
 config TARGET_EBC_GF33A1_2G
-	bool "Advantech EBC-GF33 platform for hw version a1"
+	bool "Advantech EBC-GF33 platform for hw version a101-1"
 	select TI_I2C_BOARD_DETECT
 	select TARGET_AM57XX_ADVANTECH
 
 config TARGET_EBC_GF33B1_2G
-	bool "Advantech EBC-GF33 platform for hw version b1"
+	bool "Advantech EBC-GF33 platform for hw version b102-1"
 	select TI_I2C_BOARD_DETECT
 	select TARGET_AM57XX_ADVANTECH
 
 config TARGET_ROM7510A1_2G
-	bool "Advantech ROM7510 platform for hw version a1"
+	bool "Advantech ROM7510 platform for hw version a101-1"
 	select TI_I2C_BOARD_DETECT
 	select TARGET_AM57XX_ADVANTECH
 
 config TARGET_ROM7510A2_2G
-        bool "Advantech ROM7510 platform for hw version a2"
+        bool "Advantech ROM7510 platform for hw version a101-3"
         select TI_I2C_BOARD_DETECT
         select TARGET_AM57XX_ADVANTECH
 
