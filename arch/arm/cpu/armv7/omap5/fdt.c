@@ -172,7 +172,7 @@ static void ft_hs_fixups(void *fdt, bd_t *bd)
 }
 #endif
 
-#if defined(CONFIG_TARGET_DRA7XX_EVM) || defined(CONFIG_TARGET_AM57XX_EVM) || defined(CONFIG_TARGET_ADVANTECH)
+#if defined(CONFIG_TARGET_DRA7XX_EVM) || defined(CONFIG_TARGET_AM57XX_EVM) || defined(CONFIG_TARGET_AM57XX_ADVANTECH)
 #define OPP_DSP_CLK_NUM	3
 #define OPP_IVA_CLK_NUM	2
 #define OPP_GPU_CLK_NUM	2

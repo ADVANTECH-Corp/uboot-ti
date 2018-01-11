@@ -150,7 +150,7 @@ bool spl_was_boot_source(void);
 int spl_dfu_cmd(int usbctrl, char *dfu_alt_info, char *interface, char *devstr);
 
 /* We add this for advantech adv-loader. */
-#if defined(CONFIG_SPL_SPI_SUPPORT) && defined(CONFIG_TARGET_ADVANTECH)
+#if defined(CONFIG_SPL_SPI_SUPPORT) && defined(CONFIG_TARGET_AM57XX_ADVANTECH)
 int spl_adv_load_image(void);
 /* We add this function to register multi mmc devices in SPL.*/
 void spl_fat_register_init(void);

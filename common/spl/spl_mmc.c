@@ -270,7 +270,7 @@ int spl_mmc_load_image(u32 boot_device)
 	u32 boot_mode;
 	int err = 0;
 	__maybe_unused int part;
-#ifdef CONFIG_TARGET_ADVANTECH
+#ifdef CONFIG_TARGET_AM57XX_ADVANTECH
 	int  * bootdevice = (int *)CONFIG_SPL_PARAM_ADDR;
 #endif
 
@@ -344,7 +344,7 @@ int spl_mmc_load_image(u32 boot_device)
 	}
 
 out:
-#ifdef CONFIG_TARGET_ADVANTECH
+#ifdef CONFIG_TARGET_AM57XX_ADVANTECH
 	/* In there, we just only set bootdevice is 0. because our
 	   default is boot from SPI. about MMC boot, we just as factory
        recovery mode. So, no need to poll the availiable MMC card.
@@ -359,7 +359,7 @@ out:
 /* 
 * We add this for adv-loader.
 */
-#if defined(CONFIG_SPL_SPI_SUPPORT) && defined(CONFIG_TARGET_ADVANTECH)
+#if defined(CONFIG_SPL_SPI_SUPPORT) && defined(CONFIG_TARGET_AM57XX_ADVANTECH)
 static int mmc_adv_load_image_raw(struct mmc *mmc)
 {
 	int err = 0;
