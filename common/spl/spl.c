@@ -343,7 +343,7 @@ static int spl_load_image(u32 boot_device)
 #endif
 #ifdef CONFIG_SPL_SPI_SUPPORT
 	case BOOT_DEVICE_SPI:
-#ifdef  CONFIG_TARGET_AM57XX_ADVANTECH
+#if defined(CONFIG_TARGET_AM57XX_ADVANTECH) || defined(CONFIG_TARGET_AM335X_ADVANTECH)
 		return spl_adv_load_image();
 #else
 		return spl_spi_load_image();

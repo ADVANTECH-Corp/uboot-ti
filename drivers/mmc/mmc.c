@@ -2441,7 +2441,8 @@ int mmc_set_rst_n_function(struct mmc *mmc, u8 enable)
 }
 #endif
 
-#if defined(CONFIG_SPL_SPI_SUPPORT) && defined(CONFIG_TARGET_AM57XX_ADVANTECH)
+#if defined(CONFIG_SPL_SPI_SUPPORT) && \
+	(defined(CONFIG_TARGET_AM57XX_ADVANTECH) || defined(CONFIG_TARGET_AM335X_ADVANTECH))
 static int adv_mmc_register_idx = -1;
 void mmc_adv_initialize(bd_t *bis, int mmc_idx)
 {

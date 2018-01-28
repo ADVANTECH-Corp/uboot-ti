@@ -184,6 +184,10 @@ void spl_board_init(void)
 	 * to prevent overwrites.
 	 */
 	save_omap_boot_params();
+#ifdef CONFIG_UART_BOOT_MLO
+	gd->arch.omap_boot_device = BOOT_DEVICE_MMC1;
+	gd->arch.omap_boot_mode = MMCSD_MODE_FS;
+#endif
 
 	/* Prepare console output */
 	preloader_console_init();

@@ -1,5 +1,5 @@
 config TARGET_AM57XX_ADVANTECH
-	bool "Support Advantech platform"
+	bool "Support AM57XX Advantech platform"
 
 if TARGET_AM57XX_ADVANTECH
 

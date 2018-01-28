@@ -93,6 +93,9 @@ dtb-$(CONFIG_AM33XX) += am335x-boneblack.dtb am335x-bone.dtb am335x-evm.dtb \
 	am335x-evmsk.dtb \
 	am335x-bonegreen.dtb \
 	am335x-icev2.dtb
+dtb-$(CONFIG_TARGET_AM335X_ADVANTECH) += am335x-rsb4220a1.dtb \
+		am335x-rsb4221a1.dtb \
+		am335x-rom3310a1.dtb
 dtb-$(CONFIG_AM43XX) += am437x-gp-evm.dtb am437x-sk-evm.dtb	\
 	am43x-epos-evm.dtb \
 	am437x-idk-evm.dtb

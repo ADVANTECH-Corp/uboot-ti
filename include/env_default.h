@@ -92,7 +92,7 @@ const uchar default_environment[] = {
 	"arch="		CONFIG_SYS_ARCH			"\0"
 	"cpu="		CONFIG_SYS_CPU			"\0"
 	"board="	CONFIG_SYS_BOARD		"\0"
-#ifdef CONFIG_TARGET_AM57XX_ADVANTECH
+#if defined(CONFIG_TARGET_AM57XX_ADVANTECH) || defined(CONFIG_TARGET_AM335X_ADVANTECH)
 	"board_name="	CONFIG_SYS_BOARD_NAME		"\0"
 #else
 	"board_name="	CONFIG_SYS_BOARD		"\0"

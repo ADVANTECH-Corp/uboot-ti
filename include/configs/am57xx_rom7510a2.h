@@ -12,6 +12,13 @@
 #ifndef __CONFIG_AM57XX_EVM_H
 #define __CONFIG_AM57XX_EVM_H
 
+/*
+* boot from uart,then load uboot.img from sd
+*/
+/*
+#define CONFIG_UART_BOOT_MLO
+*/
+
 #define CONFIG_AM57XX
 #ifdef CONFIG_WATCHDOG
 #define CONFIG_SPL_WATCHDOG_SUPPORT

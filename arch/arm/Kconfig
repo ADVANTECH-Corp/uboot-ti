@@ -381,6 +381,51 @@ config TARGET_AM335X_SL50
 	select DM
 	select DM_SERIAL
 
+config TARGET_RSB4220A1_512M
+	bool "Support rsb4220 512M for hw version A101-4"
+	select CPU_V7
+	select SUPPORT_SPL
+	select DM
+	select DM_SERIAL
+	select DM_GPIO
+	select TARGET_AM335X_ADVANTECH
+
+config TARGET_RSB4220A1_1G
+	bool "Support rsb4220 1G for hw version A101-4"
+	select CPU_V7
+	select SUPPORT_SPL
+	select DM
+	select DM_SERIAL
+	select DM_GPIO
+	select TARGET_AM335X_ADVANTECH
+
+config TARGET_RSB4221A1_512M
+	bool "Support rsb4221 512M for hw version A103-1"
+	select CPU_V7
+	select SUPPORT_SPL
+	select DM
+	select DM_SERIAL
+	select DM_GPIO
+	select TARGET_AM335X_ADVANTECH
+
+config TARGET_RSB4221A1_1G
+	bool "Support rsb4221 1G for hw version A103-1"
+	select CPU_V7
+	select SUPPORT_SPL
+	select DM
+	select DM_SERIAL
+	select DM_GPIO
+	select TARGET_AM335X_ADVANTECH
+
+config TARGET_ROM3310A1_512M
+	bool "Support rom3310 512M for hw version A101-2"
+	select CPU_V7
+	select SUPPORT_SPL
+	select DM
+	select DM_SERIAL
+	select DM_GPIO
+	select TARGET_AM335X_ADVANTECH
+
 config TARGET_BAV335X
 	bool "Support bav335x"
 	select CPU_V7
@@ -883,6 +928,7 @@ source "board/vscom/baltos/Kconfig"
 source "board/woodburn/Kconfig"
 source "board/work-microwave/work_92105/Kconfig"
 source "board/zipitz2/Kconfig"
+source "board/ti/am335x_adv/Kconfig"
 
 source "arch/arm/Kconfig.debug"
 

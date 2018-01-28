@@ -156,7 +156,8 @@ int spl_load_image_fat_os(struct blk_desc *block_dev, int partition)
 #endif
 #endif
 
-#if defined(CONFIG_SPL_SPI_SUPPORT) && defined(CONFIG_TARGET_AM57XX_ADVANTECH)
+#if defined(CONFIG_SPL_SPI_SUPPORT) && \
+(defined(CONFIG_TARGET_AM57XX_ADVANTECH) || defined(CONFIG_TARGET_AM335X_ADVANTECH))
 /* We add this function to register multi mmc devices in SPL.*/
 void spl_fat_register_init(void)
 {

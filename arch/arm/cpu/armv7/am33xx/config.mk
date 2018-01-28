@@ -21,7 +21,11 @@ ALL-y	+= u-boot-spl_HS_ISSW
 ALL-$(CONFIG_SPL_SPI_SUPPORT) += u-boot-spl_HS_SPI_X-LOADER
 else
 ALL-y	+= MLO
+ifdef CONFIG_TARGET_AM335X_ADVANTECH
+ALL-y += MLO.byteswap
+else
 ALL-$(CONFIG_SPL_SPI_SUPPORT) += MLO.byteswap
+endif
 endif
 else
 ifeq ($(CONFIG_TI_SECURE_DEVICE),y)

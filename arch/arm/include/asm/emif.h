@@ -1171,6 +1171,9 @@ struct emif_regs {
 	u32 sdram_tim1;
 	u32 sdram_tim2;
 	u32 sdram_tim3;
+#ifdef CONFIG_TARGET_AM335X_ADVANTECH
+	u32 ocp_config;
+#endif
 	u32 read_idle_ctrl;
 	u32 zq_config;
 	u32 temp_alert_config;
