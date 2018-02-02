@@ -151,7 +151,7 @@
 	"run findfdt; " \
 	"run mmcboot;" \
 	"setenv mmcdev 1; " \
-	"setenv bootpart 1:2; " \
+	"setenv bootpart ${bootpart}; " \
 	"setenv mmcroot /dev/mmcblk0p2 rw; " \
 	"run mmcboot;" \
 	""
