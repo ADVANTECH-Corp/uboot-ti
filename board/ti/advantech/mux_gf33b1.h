@@ -343,12 +343,8 @@ const struct iodelay_cfg_entry iodelay_cfg_array_am57xx[] = {
 static const struct dmm_lisa_map_regs am57xx_lisa_regs = {
 	.dmm_lisa_map_0 = 0x00000000,					
 	.dmm_lisa_map_1 = 0x00000000, 
-#if 0
 	.dmm_lisa_map_2 = 0x80700100,					
 	.dmm_lisa_map_3 = 0xFF020100,	
-#endif		
-	.dmm_lisa_map_2 = 0x80700100,					
-	.dmm_lisa_map_3 = 0xFF020100,		
 	.is_ma_present = 0x1
 };
 
@@ -369,27 +365,9 @@ static const u32 am572x_emif2_ddr3_ext_phy_ctrl_const_regs[] = {
 * DRA72x(Am571x) family soc DDR configuration.
 */
 static const struct emif_regs am571x_ddr3_532mhz_emif_regs = {
-#if 0
-	.sdram_config_init = 0x618513B2,					
-	.sdram_config = 0x618513B2,					
-	.sdram_config2 = 0x00000000,					
-	.ref_ctrl = 0x000040F1,					
-	.ref_ctrl_final = 0x00001035,					
-	.sdram_tim1 = 0xCEEF36B3,					
-	.sdram_tim2 = 0x30BA7FDA,					
-	.sdram_tim3 = 0x407F8BA8,					
-	.read_idle_ctrl = 0x00050000,					
-	.zq_config = 0x5007190B,					
-	.temp_alert_config = 0x00000000,					
-	.emif_rd_wr_lvl_rmp_ctl = 0x80000000,					
-	.emif_rd_wr_lvl_ctl = 0x00000000,					
-	.emif_ddr_phy_ctlr_1_init = 0x0824400A,					
-	.emif_ddr_phy_ctlr_1 = 0x0E24400A,					
-	.emif_rd_wr_exec_thresh = 0x00000305
-#endif
-	.sdram_config_init = 0x618513B2,					
-    .sdram_config = 0x618513B2,					
-	.sdram_config2 = 0x00000000,					
+	.sdram_config_init = 0x61851BB2,					
+    .sdram_config = 0x61851BB2,					
+	.sdram_config2 = 0x08000000,			
     .ref_ctrl = 0x000040F1,					
     .ref_ctrl_final = 0x00001035,					
     .sdram_tim1 = 0xCEEF36B3,					
@@ -405,45 +383,7 @@ static const struct emif_regs am571x_ddr3_532mhz_emif_regs = {
 	.emif_rd_wr_exec_thresh = 0x00000305	
 };
 static const u32 am571x_ddr3_ext_phy_ctrl_const_regs[] = {
-#if 0
 	0x04040100,	// EMIF1_EXT_PHY_CTRL_1				
-	0x006B0085,	// EMIF1_EXT_PHY_CTRL_2				
-	0x006B0084,	// EMIF1_EXT_PHY_CTRL_3				
-	0x006B0094,	// EMIF1_EXT_PHY_CTRL_4				
-	0x006B008E,	// EMIF1_EXT_PHY_CTRL_5				
-	0x006B006B,	// EMIF1_EXT_PHY_CTRL_6				
-	0x002F002F,	// EMIF1_EXT_PHY_CTRL_7				
-	0x002F002F,	// EMIF1_EXT_PHY_CTRL_8				
-	0x002F002F,	// EMIF1_EXT_PHY_CTRL_9				
-	0x002F002F,	// EMIF1_EXT_PHY_CTRL_10				
-	0x002F002F,	// EMIF1_EXT_PHY_CTRL_11				
-	0x00600066,	// EMIF1_EXT_PHY_CTRL_12				
-	0x00600066,	// EMIF1_EXT_PHY_CTRL_13				
-	0x00600066,	// EMIF1_EXT_PHY_CTRL_14				
-	0x0060006C,	// EMIF1_EXT_PHY_CTRL_15				
-	0x00600060,	// EMIF1_EXT_PHY_CTRL_16				
-	0x00400046,	// EMIF1_EXT_PHY_CTRL_17				
-	0x00400046,	// EMIF1_EXT_PHY_CTRL_18				
-	0x00400046,	// EMIF1_EXT_PHY_CTRL_19				
-	0x0040004C,	// EMIF1_EXT_PHY_CTRL_20				
-	0x00400040,	// EMIF1_EXT_PHY_CTRL_21				
-	0x00800080,	// EMIF1_EXT_PHY_CTRL_22				
-	0x00800080,	// EMIF1_EXT_PHY_CTRL_23				
-	0x40010080,	// EMIF1_EXT_PHY_CTRL_24				
-	0x08102040,	// EMIF1_EXT_PHY_CTRL_25				
-	0x005B0075,	// EMIF1_EXT_PHY_CTRL_26				
-	0x005B0074,	// EMIF1_EXT_PHY_CTRL_27				
-	0x005B0084,	// EMIF1_EXT_PHY_CTRL_28				
-	0x005B007E,	// EMIF1_EXT_PHY_CTRL_29				
-	0x005B005B,	// EMIF1_EXT_PHY_CTRL_30				
-	0x00300036,	// EMIF1_EXT_PHY_CTRL_31				
-	0x00300036,	// EMIF1_EXT_PHY_CTRL_32				
-	0x00300036,	// EMIF1_EXT_PHY_CTRL_33				
-	0x0030003C,	// EMIF1_EXT_PHY_CTRL_34				
-	0x00300030,	// EMIF1_EXT_PHY_CTRL_35				
-	0x00000077	// EMIF1_EXT_PHY_CTRL_36
-#endif
-    0x04040100,	// EMIF1_EXT_PHY_CTRL_1				
     0x006B0085,	// EMIF1_EXT_PHY_CTRL_2				
     0x006B0084,	// EMIF1_EXT_PHY_CTRL_3				
     0x006B0094,	// EMIF1_EXT_PHY_CTRL_4				
