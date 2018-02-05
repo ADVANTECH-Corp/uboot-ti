@@ -41,6 +41,8 @@ DECLARE_GLOBAL_DATA_PTR;
 
 static struct ctrl_dev *cdev = (struct ctrl_dev *)CTRL_DEVICE_BASE;
 
+static void  board_set_boot_device(void);
+
 #ifndef CONFIG_SKIP_LOWLEVEL_INIT
 static const struct ddr_data ddr3_evm_data = {
 	.datardsratio0 = MT41J512M8RH125_RD_DQS,
@@ -222,6 +224,9 @@ int board_init(void)
 #ifdef CONFIG_BOARD_LATE_INIT
 int board_late_init(void)
 {
+#ifndef CONFIG_SPL_BUILD
+	board_set_boot_device();
+#endif
 	return 0;
 }
 #endif
@@ -404,5 +409,85 @@ int board_fit_config_name_match(const char *name)
 int ft_board_setup(void *fdt, bd_t *bd)
 {
 	return 0;
+}
+#endif
+
+#ifndef CONFIG_SPL_BUILD
+static void  board_set_boot_device(void)
+{
+    int dev = (*(int *)CONFIG_SPL_PARAM_ADDR);
+    int bcb_flag;
+
+#ifdef CONFIG_ADV_OTA_SUPPORT
+    if (dev != 0)
+    {
+        bcb_flag= recovery_check_and_clean_command();
+    }
+    switch(dev) {
+	case 0:
+        /* booting from MMC0(SD)*/
+		printf("booting from SD\n");
+		break;
+	case 1:
+		/* booting from MMC1(Nand)& No image in SD*/
+		printf("booting from MMC1\n");
+		if(bcb_flag)
+		{
+			setenv("finduuid","part uuid mmc 1:3 uuid");
+			setenv("bootpart","1:3");
+			setenv("loadimage","load mmc 1:3 ${loadaddr} ${bootdir}/${bootfile}");
+			setenv("loadfdt","load mmc 1:3 ${fdtaddr} ${bootdir}/${fdtfile}");
+		}
+		else
+		{
+			setenv("finduuid","part uuid mmc 1:2 uuid");
+			setenv("bootpart","1:2");
+			setenv("loadimage","load mmc 1:2 ${loadaddr} ${bootdir}/${bootfile}");
+			setenv("loadfdt","load mmc 1:2 ${fdtaddr} ${bootdir}/${fdtfile}");
+		}
+		break;
+	default:
+		/* booting from MMC1(Nand) & no insert SD.*/
+		printf("booting from MMC1\n");
+		if(bcb_flag)
+		{
+			setenv("finduuid","part uuid mmc 1:3 uuid");
+			setenv("bootpart","1:3");
+			setenv("loadimage","load mmc 1:3 ${loadaddr} ${bootdir}/${bootfile}");
+			setenv("loadfdt","load mmc 1:3 ${fdtaddr} ${bootdir}/${fdtfile}");
+		}
+		else
+		{
+			setenv("finduuid","part uuid mmc 1:2 uuid");
+			setenv("bootpart","1:2");
+			setenv("loadimage","load mmc 1:2 ${loadaddr} ${bootdir}/${bootfile}");
+			setenv("loadfdt","load mmc 1:2 ${fdtaddr} ${bootdir}/${fdtfile}");
+		}
+		break;
+	}
+
+#else
+    switch(dev) {
+	case 0:
+        /* booting from MMC0(SD)*/
+		printf("booting from SD\n");
+		setenv("mmcdev", "0");
+		setenv("finduuid","part uuid mmc 0:2 uuid");
+		break;
+	case 1:
+		/* booting from MMC1(Nand)& No image in SD*/
+		printf("booting from MMC1\n");
+		setenv("mmcdev", "1");
+		setenv("finduuid","part uuid mmc 1:2 uuid");
+		break;
+	default:
+		/* booting from MMC1(Nand) & no insert SD.*/
+		printf("booting from MMC1\n");
+		setenv("mmcdev", "1");
+		setenv("finduuid","part uuid mmc 1:2 uuid");
+		break;
+	}
+#endif
+	
 }
 #endif
