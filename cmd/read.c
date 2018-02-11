@@ -66,7 +66,11 @@ int do_read(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 		return 1;
 	}
 
+#if defined(CONFIG_TARGET_AM57XX_ADVANTECH) || defined(CONFIG_TARGET_AM335X_ADVANTECH)
 	if (dev_desc->block_read(dev_desc, offset + blk, cnt, addr) < 0) {
+#else
+	if (blk_read(dev_desc, offset + blk, cnt, addr) < 0) {
+#endif
 		printf("Error reading blocks\n");
 		return 1;
 	}

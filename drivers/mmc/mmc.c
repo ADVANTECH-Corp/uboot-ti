@@ -30,6 +30,11 @@ static int mmc_set_signal_voltage(struct mmc *mmc, uint signal_voltage);
 static int mmc_set_vdd(struct mmc *mmc, int enable);
 static void mmc_power_cycle(struct mmc *mmc);
 
+#if !defined(CONFIG_SPL_BUILD) && (defined(CONFIG_TARGET_RSB4221A1_512M) ||defined(CONFIG_TARGET_RSB4221A1_1G) )
+#define GPIO_TO_PIN(bank, gpio)		(32 * (bank) + (gpio))
+#define SDIO_SEL		GPIO_TO_PIN(2, 2)
+#endif
+
 __weak int board_mmc_getwp(struct mmc *mmc)
 {
 	return -1;
@@ -2133,7 +2138,7 @@ retry:
 
 	if (!err)
 		mmc->init_in_progress = 1;
-
+	
 	return err;
 }
 
@@ -2159,6 +2164,31 @@ int mmc_init(struct mmc *mmc)
 	int err = 0;
 	unsigned start;
 
+#if !defined(CONFIG_SPL_BUILD) && (defined(CONFIG_TARGET_RSB4221A1_512M) ||defined(CONFIG_TARGET_RSB4221A1_1G) )
+	char *s;
+	if( getenv("M2_WIFIFlag") != NULL)
+	{
+		s = getenv("M2_WIFIFlag");
+		if(0 == strcmp(s, "TRUE"))
+		{	
+			gpio_request(SDIO_SEL, "sdio_sel");
+			gpio_direction_output(SDIO_SEL, 0);
+			gpio_set_value(SDIO_SEL, 0);
+		}
+		else
+		{
+			gpio_request(SDIO_SEL, "sdio_sel");
+			gpio_direction_output(SDIO_SEL, 0);
+			gpio_set_value(SDIO_SEL, 1);
+		}
+	}
+	else
+	{
+		gpio_request(SDIO_SEL, "sdio_sel");
+		gpio_direction_output(SDIO_SEL, 0);
+		gpio_set_value(SDIO_SEL, 1);
+	}
+#endif
 	if (mmc->has_init)
 		return 0;
 
@@ -2169,7 +2199,7 @@ int mmc_init(struct mmc *mmc)
 
 	if (!err)
 		err = mmc_complete_init(mmc);
-	debug("%s: %d, time %lu\n", __func__, err, get_timer(start));
+	debug("%s: %d, time %lu\n", __func__, err, get_timer(start));	
 	return err;
 }
 

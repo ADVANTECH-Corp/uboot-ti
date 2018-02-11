@@ -102,6 +102,11 @@ static struct module_pin_mux vtten_pin_mux[] = {
 	{-1},
 };
 
+static struct module_pin_mux gpio2_2_pin_mux[] = {
+	{OFFSET(gpmc_advn_ale), (MODE(7) | PULLUP_EN)},	/* GPIO2_2 */
+	{-1},
+};
+
 static struct module_pin_mux rgmii1_pin_mux[] = {
 	{OFFSET(mii1_txen), MODE(2)},			/* RGMII1_TCTL */
 	{OFFSET(mii1_rxdv), MODE(2) | RXACTIVE},	/* RGMII1_RCTL */
@@ -164,4 +169,5 @@ void enable_board_pin_mux(void)
 	configure_module_pin_mux(mmc0_pin_mux);
 	configure_module_pin_mux(mmc1_pin_mux);
 	configure_module_pin_mux(spi0_pin_mux);
+	configure_module_pin_mux(gpio2_2_pin_mux);
 }

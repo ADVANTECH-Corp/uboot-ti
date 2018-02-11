@@ -10,7 +10,9 @@
 #include <blk.h>
 #include <ide.h>
 
+#if defined(CONFIG_TARGET_AM57XX_ADVANTECH) || defined(CONFIG_TARGET_AM335X_ADVANTECH)
 typedef struct blk_desc blk_desc_t;
+#endif
 
 struct block_drvr {
 	char *name;
