@@ -388,6 +388,17 @@ int board_eth_init(bd_t *bis)
 	rv = cpsw_register(&cpsw_data);
 	if (rv < 0)
 		printf("Error %d registering CPSW switch\n", rv);
+
+	const char *devname;
+	devname = miiphy_get_current_dev();
+	for(i=0;i<CONFIG_ACTIVE_EPHY_NUM;i++)
+	{
+		miiphy_write(devname, i, 0x1f, 0x0007);
+		miiphy_write(devname, i, 0x1e, 0x002c);
+		miiphy_write(devname, i, 0x1c, 0x9247);
+		miiphy_write(devname, i, 0x1a, 0x0091);
+		miiphy_write(devname, i, 0x1f, 0x0000);
+	}
 #endif
 
 #endif
