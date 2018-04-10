@@ -389,16 +389,34 @@ int board_eth_init(bd_t *bis)
 	if (rv < 0)
 		printf("Error %d registering CPSW switch\n", rv);
 
+#ifdef CONFIG_TARGET_AM335X_ADVANTECH
 	const char *devname;
 	devname = miiphy_get_current_dev();
 	for(i=0;i<CONFIG_ACTIVE_EPHY_NUM;i++)
 	{
+		/*PHY LED status*/
 		miiphy_write(devname, i, 0x1f, 0x0007);
 		miiphy_write(devname, i, 0x1e, 0x002c);
-		miiphy_write(devname, i, 0x1c, 0x9247);
+		miiphy_write(devname, i, 0x1c, 0x9240);
 		miiphy_write(devname, i, 0x1a, 0x0091);
 		miiphy_write(devname, i, 0x1f, 0x0000);
+
+		/*PHY LED speed realtek*/
+		miiphy_write(devname, i, 0x1f, 0x0005);
+		miiphy_write(devname, i, 0x05, 0x8b82);
+		miiphy_write(devname, i, 0x06, 0x052b);
+		miiphy_write(devname, i, 0x1f, 0x0000);
+
+		/*PHY 125MHz disable and SSC enable, for EMI realtek FAE help*/
+		miiphy_write(devname, i, 0x1f, 0x0000);
+		miiphy_write(devname, i, 0x10, 0x017e);
+		miiphy_write(devname, i, 0x1f, 0x0000);
+		miiphy_write(devname, i, 0x1f, 0x0007);
+		miiphy_write(devname, i, 0x1e, 0x00a0);
+		miiphy_write(devname, i, 0x1a, 0x38d0);
+		miiphy_write(devname, i, 0x1f, 0x0000);
 	}
+#endif
 #endif
 
 #endif
