@@ -229,6 +229,10 @@ static u32 spl_boot_list[] = {
 __weak void board_boot_order(u32 *spl_boot_list)
 {
 	spl_boot_list[0] = spl_boot_device();
+#ifdef  CONFIG_TARGET_ROM7510A2_2G
+	if (spl_boot_list[0] == BOOT_DEVICE_SPI)
+		spl_boot_list[1] = BOOT_DEVICE_SATA;
+#endif
 }
 
 #ifdef CONFIG_SPL_BOARD_LOAD_IMAGE

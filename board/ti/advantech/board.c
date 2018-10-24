@@ -534,6 +534,23 @@ static void  board_set_boot_device(void)
 			setenv("bootpart","1:2");
 		}
 		break;
+	case 0x0A:
+		if(bcb_flag)
+		{
+			setenv("args_sata", "run finduuid;setenv bootargs console=${console} ${optargs} root=/dev/sda3 rw rootfstype=ext4");
+			setenv("loadimage","load scsi 0:3 ${loadaddr} ${bootdir}/${bootfile}");
+			setenv("loadfdt","load scsi 0:3 ${fdtaddr} ${bootdir}/${fdtfile}");
+			setenv("sataboot","if run loadimage; then run loadfdt; run args_sata; bootz ${loadaddr} - ${fdtaddr}; fi;");
+		}
+		else
+		{
+			setenv("args_sata", "run finduuid;setenv bootargs console=${console} ${optargs} root=/dev/sda2 rw rootfstype=ext4");
+			setenv("loadimage","load scsi 0:2 ${loadaddr} ${bootdir}/${bootfile}");
+			setenv("loadfdt","load scsi 0:2 ${fdtaddr} ${bootdir}/${fdtfile}");
+			setenv("sataboot","if run loadimage; then run loadfdt; run args_sata; bootz ${loadaddr} - ${fdtaddr}; fi;");
+		}
+			setenv("bootcmd","if test ${dofastboot} -eq 1; then echo Boot fastboot requested, resetting dofastboot ...;setenv dofastboot 0; saveenv;echo Booting into fastboot ...; fastboot 0;fi;run findfdt; run sataboot;");
+		break;
 	default:
 		/* booting from MMC1(Nand) & no insert SD.*/
 		printf("booting from MMC1\n");
@@ -563,6 +580,13 @@ static void  board_set_boot_device(void)
 		printf("booting from MMC1\n");
 		setenv("mmcdev", "1");
 		setenv("finduuid","part uuid mmc 1:2 uuid");
+		break;
+	case 0x0A:
+		setenv("args_sata", "run finduuid;setenv bootargs console=${console} ${optargs} root=/dev/sda2 rw rootfstype=ext4");
+		setenv("loadimage","load scsi 0:2 ${loadaddr} ${bootdir}/${bootfile}");
+		setenv("loadfdt","load scsi 0:2 ${fdtaddr} ${bootdir}/${fdtfile}");
+		setenv("sataboot","if run loadimage; then run loadfdt; run args_sata; bootz ${loadaddr} - ${fdtaddr}; fi;");
+		setenv("bootcmd","if test ${dofastboot} -eq 1; then echo Boot fastboot requested, resetting dofastboot ...;setenv dofastboot 0; saveenv;echo Booting into fastboot ...; fastboot 0;fi;run findfdt; run sataboot;");
 		break;
 	default:
 		/* booting from MMC1(Nand) & no insert SD.*/

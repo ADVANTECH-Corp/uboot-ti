@@ -25,6 +25,11 @@ int spl_sata_load_image(void)
 	int err;
 	struct blk_desc *stor_dev;
 
+#ifdef CONFIG_TARGET_ROM7510A2_2G
+	int  * bootdevice = (int *)CONFIG_SPL_PARAM_ADDR;
+	spl_fat_register_init();
+#endif
+
 	err = init_sata(CONFIG_SPL_SATA_BOOT_DEVICE);
 	if (err) {
 #ifdef CONFIG_SPL_LIBCOMMON_SUPPORT
@@ -50,6 +55,10 @@ int spl_sata_load_image(void)
 		puts("Error loading sata device\n");
 		return err;
 	}
+
+#ifdef CONFIG_TARGET_ROM7510A2_2G
+	*bootdevice = 0x0A;
+#endif
 
 	return 0;
 }
