@@ -426,6 +426,15 @@ config TARGET_ROM3310A1_512M
 	select DM_GPIO
 	select TARGET_AM335X_ADVANTECH
 
+config TARGET_UBC440A1_1G
+        bool "Support ubc440 1G for hw version A101-1"
+        select CPU_V7
+        select SUPPORT_SPL
+        select DM
+        select DM_SERIAL
+        select DM_GPIO
+        select TARGET_AM335X_ADVANTECH
+
 config TARGET_BAV335X
 	bool "Support bav335x"
 	select CPU_V7

@@ -39,6 +39,11 @@
 
 DECLARE_GLOBAL_DATA_PTR;
 
+#if  !defined(CONFIG_SPL_BUILD) && (defined( CONFIG_TARGET_UBC440A1_1G))
+#define GPIO_TO_PIN(bank, gpio)		(32 * (bank) + (gpio))
+#define UART_POWER		GPIO_TO_PIN(2, 25)
+#endif
+
 static struct ctrl_dev *cdev = (struct ctrl_dev *)CTRL_DEVICE_BASE;
 
 static void  board_set_boot_device(void);
@@ -226,6 +231,11 @@ int board_late_init(void)
 {
 #ifndef CONFIG_SPL_BUILD
 	board_set_boot_device();
+#ifdef CONFIG_TARGET_UBC440A1_1G
+	gpio_request(UART_POWER, "uart_power");
+	gpio_direction_output(UART_POWER, 0);
+	gpio_set_value(UART_POWER, 1);
+#endif
 #endif
 	return 0;
 }
@@ -389,7 +399,7 @@ int board_eth_init(bd_t *bis)
 	if (rv < 0)
 		printf("Error %d registering CPSW switch\n", rv);
 
-#ifdef CONFIG_TARGET_AM335X_ADVANTECH
+#ifndef CONFIG_TARGET_AM335X_ADVANTECH
 	const char *devname;
 	devname = miiphy_get_current_dev();
 	for(i=0;i<CONFIG_ACTIVE_EPHY_NUM;i++)

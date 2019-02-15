@@ -62,6 +62,16 @@ config SYS_CONFIG_NAME
 
 endif
 
+if TARGET_UBC440A1_1G
+
+config SYS_BOARD_NAME
+        default "ubc440a1"
+
+config SYS_CONFIG_NAME
+        default "am335x_ubc440"
+
+endif
+
 config CONS_INDEX
 	int "UART used for console"
 	range 1 6
