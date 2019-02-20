@@ -427,6 +427,21 @@ int board_eth_init(bd_t *bis)
 		miiphy_write(devname, i, 0x1f, 0x0000);
 	}
 #endif
+        const char *devname;
+        devname = miiphy_get_current_dev();
+        for(i=0;i<CONFIG_ACTIVE_EPHY_NUM;i++)
+        {
+                miiphy_write(devname, i, 0x1f, 0x0d08);
+                miiphy_write(devname, i, 0x11, 0x0109);
+                miiphy_write(devname, i, 0x1f, 0x0000);
+                miiphy_write(devname, i, 0x1f, 0x0d04);
+                miiphy_write(devname, i, 0x10, 0x617f);
+                miiphy_write(devname, i, 0x1f, 0x0000);
+
+                miiphy_write(devname, i, 0x1f, 0x0d04);
+                miiphy_write(devname, i, 0x10, 0x091b);
+                miiphy_write(devname, i, 0x1f, 0x0000);
+        }
 #endif
 
 #endif
