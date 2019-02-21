@@ -39,11 +39,6 @@
 
 DECLARE_GLOBAL_DATA_PTR;
 
-#if  !defined(CONFIG_SPL_BUILD) && (defined( CONFIG_TARGET_UBC440A1_1G))
-#define GPIO_TO_PIN(bank, gpio)		(32 * (bank) + (gpio))
-#define UART_POWER		GPIO_TO_PIN(2, 25)
-#endif
-
 static struct ctrl_dev *cdev = (struct ctrl_dev *)CTRL_DEVICE_BASE;
 
 static void  board_set_boot_device(void);
@@ -195,8 +190,10 @@ void sdram_init(void)
 	 * Advantech platform and later use GPIO_DDR_VTT_EN to enable DDR3.
 	 * This is safe enough to do on older revs.
 	 */
+#ifdef GPIO_DDR_VTT_EN
 	gpio_request(GPIO_DDR_VTT_EN, "ddr_vtt_en");
 	gpio_direction_output(GPIO_DDR_VTT_EN, 1);
+#endif
 
 	/* Configure DDR.. 
 	* Note: we will no longre use the "board_is_xx" to decide
@@ -231,7 +228,7 @@ int board_late_init(void)
 {
 #ifndef CONFIG_SPL_BUILD
 	board_set_boot_device();
-#ifdef CONFIG_TARGET_UBC440A1_1G
+#ifdef UART_POWER
 	gpio_request(UART_POWER, "uart_power");
 	gpio_direction_output(UART_POWER, 0);
 	gpio_set_value(UART_POWER, 1);
@@ -399,49 +396,12 @@ int board_eth_init(bd_t *bis)
 	if (rv < 0)
 		printf("Error %d registering CPSW switch\n", rv);
 
-#ifndef CONFIG_TARGET_AM335X_ADVANTECH
-	const char *devname;
-	devname = miiphy_get_current_dev();
-	for(i=0;i<CONFIG_ACTIVE_EPHY_NUM;i++)
-	{
-		/*PHY LED status*/
-		miiphy_write(devname, i, 0x1f, 0x0007);
-		miiphy_write(devname, i, 0x1e, 0x002c);
-		miiphy_write(devname, i, 0x1c, 0x9240);
-		miiphy_write(devname, i, 0x1a, 0x0091);
-		miiphy_write(devname, i, 0x1f, 0x0000);
-
-		/*PHY LED speed realtek*/
-		miiphy_write(devname, i, 0x1f, 0x0005);
-		miiphy_write(devname, i, 0x05, 0x8b82);
-		miiphy_write(devname, i, 0x06, 0x052b);
-		miiphy_write(devname, i, 0x1f, 0x0000);
-
-		/*PHY 125MHz disable and SSC enable, for EMI realtek FAE help*/
-		miiphy_write(devname, i, 0x1f, 0x0000);
-		miiphy_write(devname, i, 0x10, 0x017e);
-		miiphy_write(devname, i, 0x1f, 0x0000);
-		miiphy_write(devname, i, 0x1f, 0x0007);
-		miiphy_write(devname, i, 0x1e, 0x00a0);
-		miiphy_write(devname, i, 0x1a, 0x38d0);
-		miiphy_write(devname, i, 0x1f, 0x0000);
-	}
-#endif
-        const char *devname;
-        devname = miiphy_get_current_dev();
-        for(i=0;i<CONFIG_ACTIVE_EPHY_NUM;i++)
-        {
-                miiphy_write(devname, i, 0x1f, 0x0d08);
-                miiphy_write(devname, i, 0x11, 0x0109);
-                miiphy_write(devname, i, 0x1f, 0x0000);
-                miiphy_write(devname, i, 0x1f, 0x0d04);
-                miiphy_write(devname, i, 0x10, 0x617f);
-                miiphy_write(devname, i, 0x1f, 0x0000);
-
-                miiphy_write(devname, i, 0x1f, 0x0d04);
-                miiphy_write(devname, i, 0x10, 0x091b);
-                miiphy_write(devname, i, 0x1f, 0x0000);
-        }
+    const char *devname;
+    devname = miiphy_get_current_dev();
+    for(i=0;i<CONFIG_ACTIVE_EPHY_NUM;i++)
+    {
+        config_phy_reg(devname, i);
+    }
 #endif
 
 #endif

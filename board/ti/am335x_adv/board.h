@@ -11,6 +11,11 @@
 #ifndef _BOARD_H_
 #define _BOARD_H_
 
+struct phy_conf_data {
+	unsigned char reg;
+	unsigned short value;
+};
+
 /*
  * We have three pin mux functions that must exist.  We must be able to enable
  * uart0, for initial output and i2c0 to read the main EEPROM.  We then have a
@@ -25,4 +30,5 @@ void enable_uart4_pin_mux(void);
 void enable_uart5_pin_mux(void);
 void enable_i2c0_pin_mux(void);
 void enable_board_pin_mux(void);
+void config_phy_reg(const char *devname, unsigned char addr);
 #endif

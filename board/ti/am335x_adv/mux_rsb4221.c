@@ -171,3 +171,28 @@ void enable_board_pin_mux(void)
 	configure_module_pin_mux(spi0_pin_mux);
 	configure_module_pin_mux(gpio2_2_pin_mux);
 }
+
+void config_phy_reg(const char *devname, unsigned char addr)
+{
+	/*PHY LED status*/
+	miiphy_write(devname, addr, 0x1f, 0x0007);
+	miiphy_write(devname, addr, 0x1e, 0x002c);
+	miiphy_write(devname, addr, 0x1c, 0x9240);
+	miiphy_write(devname, addr, 0x1a, 0x0091);
+	miiphy_write(devname, addr, 0x1f, 0x0000);
+	
+	/*PHY LED speed realtek*/
+	miiphy_write(devname, addr, 0x1f, 0x0005);
+	miiphy_write(devname, addr, 0x05, 0x8b82);
+	miiphy_write(devname, addr, 0x06, 0x052b);
+	miiphy_write(devname, addr, 0x1f, 0x0000);
+	
+	/*PHY 125MHz disable and SSC enable, for EMI realtek FAE help*/
+	miiphy_write(devname, addr, 0x1f, 0x0000);
+	miiphy_write(devname, addr, 0x10, 0x017e);
+	miiphy_write(devname, addr, 0x1f, 0x0000);
+	miiphy_write(devname, addr, 0x1f, 0x0007);
+	miiphy_write(devname, addr, 0x1e, 0x00a0);
+	miiphy_write(devname, addr, 0x1a, 0x38d0);
+	miiphy_write(devname, addr, 0x1f, 0x0000);
+}

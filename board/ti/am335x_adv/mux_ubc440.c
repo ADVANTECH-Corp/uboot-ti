@@ -213,3 +213,17 @@ void enable_board_pin_mux(void)
 	configure_module_pin_mux(spi0_pin_mux);
 	configure_module_pin_mux(spi1_pin_mux);
 }
+
+void config_phy_reg(const char *devname, unsigned char addr)
+{
+	miiphy_write(devname, addr, 0x1f, 0x0d08);
+	miiphy_write(devname, addr, 0x11, 0x0109);
+	miiphy_write(devname, addr, 0x1f, 0x0000);
+	miiphy_write(devname, addr, 0x1f, 0x0d04);
+	miiphy_write(devname, addr, 0x10, 0x617f);
+	miiphy_write(devname, addr, 0x1f, 0x0000);
+
+	miiphy_write(devname, addr, 0x1f, 0x0d04);
+	miiphy_write(devname, addr, 0x10, 0x091b);
+	miiphy_write(devname, addr, 0x1f, 0x0000);
+}

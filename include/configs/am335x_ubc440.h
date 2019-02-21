@@ -492,8 +492,8 @@
 #define CONFIG_SYS_MEMTEST_START	0x90000000
 #define CONFIG_SYS_MEMTEST_END	0xa0000000
 
-/* GPIO that controls power to DDR */
-#define GPIO_DDR_VTT_EN		67
+#define GPIO_TO_PIN(bank, gpio)		(32 * (bank) + (gpio))
+#define UART_POWER		GPIO_TO_PIN(2, 25)
 
 /**
  * AM335X (EMIF_4D) EMIF REG_COS_COUNT_1, REG_COS_COUNT_2, and

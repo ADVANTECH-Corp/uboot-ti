@@ -6,9 +6,9 @@
 # SPDX-License-Identifier:	GPL-2.0+
 #
 
-ifeq ($(CONFIG_SKIP_LOWLEVEL_INIT),)
+#ifeq ($(CONFIG_SKIP_LOWLEVEL_INIT),)
 obj-y	:= mux.o
-endif
+#endif
 
 ifndef CONFIG_SPL_BUILD
 ifdef CONFIG_ADV_OTA_SUPPORT
