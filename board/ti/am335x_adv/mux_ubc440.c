@@ -225,5 +225,6 @@ void config_phy_reg(const char *devname, unsigned char addr)
 
 	miiphy_write(devname, addr, 0x1f, 0x0d04);
 	miiphy_write(devname, addr, 0x10, 0x091b);
+	miiphy_write(devname, addr, 0x11, 0x0000);
 	miiphy_write(devname, addr, 0x1f, 0x0000);
 }
