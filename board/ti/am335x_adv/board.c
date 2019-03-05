@@ -146,6 +146,12 @@ void am33xx_spl_board_init(void)
 	if (tps65910_voltage_update(CORE, TPS65910_OP_REG_SEL_1_1_3))
 		return;
 
+#ifdef CONFIG_TARGET_AM335X_ADVANTECH
+	/*update the VIO maximum load current. */
+	if(adv_tps65910_config())
+		return;
+#endif
+
 	/* Set CORE Frequencies to OPP100 */
 	do_setup_dpll(&dpll_core_regs, &dpll_core_opp100);
 

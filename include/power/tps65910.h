@@ -24,6 +24,11 @@ enum {
 	TPS65910_DEVCTRL_REG				= 0x3F,
 };
 
+#ifdef CONFIG_TARGET_AM335X_ADVANTECH
+#define TPS65910_VIO_REG				0x20
+#define TPS65910_VIO_REG_ILMAX_1_0_A			(0x1 << 6)
+#endif
+
 /* VDD2 & VDD1 control register (VDD2_REG & VDD1_REG) */
 #define TPS65910_VGAIN_SEL_MASK				(0x3 << 6)
 #define TPS65910_ILMAX_MASK				(0x1 << 5)
@@ -74,4 +79,7 @@ enum {
 
 int tps65910_set_i2c_control(void);
 int tps65910_voltage_update(unsigned int module, unsigned char vddx_op_vol_sel);
+#ifdef CONFIG_TARGET_AM335X_ADVANTECH
+int adv_tps65910_config(void);
+#endif
 #endif	/* __POWER_TPS65910_H__ */

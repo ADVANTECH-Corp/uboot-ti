@@ -79,5 +79,38 @@ int tps65910_voltage_update(unsigned int module, unsigned char vddx_op_vol_sel)
 	if ((buf & TPS65910_OP_REG_SEL_MASK) != vddx_op_vol_sel)
 		return 1;
 
+#ifdef PMIC_VDD_ILMAX_1_5_A
+	ret = i2c_read(TPS65910_CTRL_I2C_ADDR, reg_offset - 1, 1, &buf, 1);
+	if (ret)
+		return ret;
+
+	buf |= TPS65910_REG_ILMAX_1_5_A;
+
+	ret = i2c_write(TPS65910_CTRL_I2C_ADDR, reg_offset - 1, 1, &buf, 1);
+	if (ret)
+		return ret;
+#endif
+
 	return 0;
 }
+
+#ifdef CONFIG_TARGET_AM335X_ADVANTECH
+int adv_tps65910_config(void)
+{
+	uchar buf;
+        int ret;
+
+#ifdef PMIC_VIO_ILMAX_1_0_A
+        ret = i2c_read(TPS65910_CTRL_I2C_ADDR, TPS65910_VIO_REG, 1, &buf, 1);
+        if (ret)
+                return ret;
+
+        buf |= TPS65910_VIO_REG_ILMAX_1_0_A;
+
+        ret = i2c_write(TPS65910_CTRL_I2C_ADDR, TPS65910_VIO_REG, 1, &buf, 1);
+        if (ret)
+                return ret;
+#endif
+	return 0;
+}
+#endif

@@ -197,7 +197,8 @@
 
 /* PMIC support */
 #define CONFIG_POWER_TPS65910
-
+#define PMIC_VDD_ILMAX_1_5_A
+#define PMIC_VIO_ILMAX_1_0_A
 /* SPL */
 #ifndef CONFIG_NOR_BOOT
 #define CONFIG_SPL_POWER_SUPPORT
