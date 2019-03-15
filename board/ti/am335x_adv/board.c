@@ -201,6 +201,10 @@ void sdram_init(void)
 	gpio_direction_output(GPIO_DDR_VTT_EN, 1);
 #endif
 
+#ifdef PCIE_PWR_EN
+	adv_pcie_timing();
+#endif
+
 	/* Configure DDR.. 
 	* Note: we will no longre use the "board_is_xx" to decide
 	* which board we used, because we has no rom/flash information

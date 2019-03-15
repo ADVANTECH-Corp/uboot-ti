@@ -125,9 +125,16 @@ static struct module_pin_mux spi1_pin_mux[] = {
 
 static struct module_pin_mux vtten_pin_mux[] = {
 	{OFFSET(gpmc_oen_ren), (MODE(7) | PULLUDEN)},	/* GPIO2_3 */
-	{OFFSET(lcd_ac_bias_en), (MODE(7) | PULLUDEN | PULLUP_EN)},		/* GPIO2_25 */
 	{-1},
 };
+
+static struct module_pin_mux adv_gpio_pin_mux[] = {
+	{OFFSET(lcd_ac_bias_en), (MODE(7) | PULLUDEN | PULLUP_EN)},		/* GPIO2_25 */
+	{OFFSET(mcasp0_ahclkx), (MODE(7) | PULLUDEN | PULLDOWN_EN)},	/* GPIO3_21 */
+	{OFFSET(lcd_hsync), (MODE(7) | PULLUDEN | PULLDOWN_EN)},	/* GPIO2_23 */
+	{-1},
+};
+
 
 static struct module_pin_mux rgmii1_pin_mux[] = {
 	{OFFSET(mii1_txen), MODE(2)},			/* RGMII1_TCTL */
@@ -212,6 +219,7 @@ void enable_board_pin_mux(void)
 	configure_module_pin_mux(mmc2_pin_mux);
 	configure_module_pin_mux(spi0_pin_mux);
 	configure_module_pin_mux(spi1_pin_mux);
+	configure_module_pin_mux(adv_gpio_pin_mux);
 }
 
 void config_phy_reg(const char *devname, unsigned char addr)
@@ -227,4 +235,15 @@ void config_phy_reg(const char *devname, unsigned char addr)
 	miiphy_write(devname, addr, 0x10, 0x091b);
 	miiphy_write(devname, addr, 0x11, 0x0000);
 	miiphy_write(devname, addr, 0x1f, 0x0000);
+}
+
+void adv_pcie_timing(void)
+{
+	gpio_request(PCIE_PWR_EN, "pcie_pwr_en");
+	gpio_direction_output(PCIE_PWR_EN, 0);
+	gpio_request(PCIE_RST, "pcie_rst");
+	gpio_direction_output(PCIE_RST, 0);
+	gpio_set_value(PCIE_PWR_EN, 1);
+	udelay(500000);
+	gpio_set_value(PCIE_RST, 1);
 }

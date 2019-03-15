@@ -67,7 +67,13 @@ enum {
 
 #define TPS65910_OP_REG_SEL_MASK			(0x7F)
 #define TPS65910_OP_REG_SEL_0_9_5			(0x1F)	/* 0.9500 V */
+
+#ifdef TPS65910_OP_REG_SEL_1_1_3_UPDATE
+#define TPS65910_OP_REG_SEL_1_1_3			TPS65910_OP_REG_SEL_1_1_3_UPDATE	/* 1.1 V */
+#else
 #define TPS65910_OP_REG_SEL_1_1_3			(0x2E)	/* 1.1375 V */
+#endif
+
 #define TPS65910_OP_REG_SEL_1_2_0			(0x33)	/* 1.2000 V */
 #define TPS65910_OP_REG_SEL_1_2_6			(0x38)	/* 1.2625 V */
 #define TPS65910_OP_REG_SEL_1_3_2_5			(0x3D)	/* 1.3250 V */
