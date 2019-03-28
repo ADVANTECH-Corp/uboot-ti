@@ -1,5 +1,5 @@
 /*
- * am335x_ubc440.h
+ * am335x_epcrs210.h
  *
  * Copyright (C) 2011 Texas Instruments Incorporated - http://www.ti.com/
  *
@@ -13,10 +13,10 @@
  * GNU General Public License for more details.
  */
 
-#ifndef __CONFIG_AM335X_UBC440_H
-#define __CONFIG_AM335X_UBC440_H
+#ifndef __CONFIG_AM335X_EPCRS210_H
+#define __CONFIG_AM335X_EPCRS210_H
 
-#if defined(CONFIG_TARGET_UBC440A1_1G)
+#if defined(CONFIG_TARGET_EPCRS210A1_1G)
 #define CONFIG_MEM_MICRON_1G
 #endif
 
@@ -182,8 +182,8 @@
 		"run ramargs; " \
 		"bootz ${loadaddr} ${rdaddr} ${fdtaddr}\0" \
 	"findfdt="\
-		"if test $board_name = ubc440a1; then " \
-			"setenv fdtfile am335x-ubc440a1.dtb; fi; " \
+		"if test $board_name = epcrs210a1; then " \
+			"setenv fdtfile am335x-epcrs210a1.dtb; fi; " \
 		"if test $fdtfile = undefined; then " \
 			"echo WARNING: Could not determine device tree to use; fi; \0" \
 	NANDARGS \
@@ -514,4 +514,4 @@
  */
 #define EMIF_OCP_CONFIG_BLACK       0x003d3d3d
 
-#endif	/* ! __CONFIG_AM335X_UBC440_H */
+#endif	/* ! __CONFIG_AM335X_EPCRS210_H */

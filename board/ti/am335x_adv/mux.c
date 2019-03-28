@@ -16,8 +16,8 @@
 #include "mux_rsb4221.c"
 #elif defined(CONFIG_TARGET_ROM3310A1_512M)
 #include "mux_rom3310.c"
-#elif defined(CONFIG_TARGET_UBC440A1_1G)
-#include "mux_ubc440.c"
+#elif defined(CONFIG_TARGET_EPCRS210A1_1G)
+#include "mux_epcrs210.c"
 #endif
 
 #endif /* _MUX_AM335X_ADVANTECH_H_ */
