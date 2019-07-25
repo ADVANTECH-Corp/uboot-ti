@@ -90,6 +90,168 @@ config TARGET_AM335X_SL50
 	select DM_SERIAL
 	select DM_GPIO
 
+config TARGET_RSB4220A1_512M
+	bool "Support rsb4220 512M for hw version A101-4"
+	select BOARD_LATE_INIT
+	select DM
+	select DM_SERIAL
+	select DM_GPIO
+	select TARGET_AM335X_ADVANTECH
+	imply SPL_ENV_SUPPORT
+	imply SPL_EXT_SUPPORT
+	imply SPL_FAT_SUPPORT
+	imply SPL_GPIO_SUPPORT
+	imply SPL_I2C_SUPPORT
+	imply SPL_LIBCOMMON_SUPPORT
+	imply SPL_LIBDISK_SUPPORT
+	imply SPL_LIBGENERIC_SUPPORT
+	imply SPL_MMC_SUPPORT
+	imply SPL_NAND_SUPPORT
+	imply SPL_POWER_SUPPORT
+	imply SPL_SERIAL_SUPPORT
+	imply SPL_WATCHDOG_SUPPORT
+	imply SPL_YMODEM_SUPPORT
+	imply SPL_SYS_MALLOC_SIMPLE
+	imply SPL_SEPARATE_BSS
+	imply SPL_DM
+	imply SPL_DM_SEQ_ALIAS
+	imply SPL_OF_LIBFDT
+
+config TARGET_RSB4220A1_1G
+	bool "Support rsb4220 1G for hw version A101-4"
+	select BOARD_LATE_INIT
+	select DM
+	select DM_SERIAL
+	select DM_GPIO
+	select TARGET_AM335X_ADVANTECH
+	imply SPL_ENV_SUPPORT
+	imply SPL_EXT_SUPPORT
+	imply SPL_FAT_SUPPORT
+	imply SPL_GPIO_SUPPORT
+	imply SPL_I2C_SUPPORT
+	imply SPL_LIBCOMMON_SUPPORT
+	imply SPL_LIBDISK_SUPPORT
+	imply SPL_LIBGENERIC_SUPPORT
+	imply SPL_MMC_SUPPORT
+	imply SPL_NAND_SUPPORT
+	imply SPL_POWER_SUPPORT
+	imply SPL_SERIAL_SUPPORT
+	imply SPL_WATCHDOG_SUPPORT
+	imply SPL_YMODEM_SUPPORT
+	imply SPL_SYS_MALLOC_SIMPLE
+	imply SPL_SEPARATE_BSS
+	imply SPL_DM
+	imply SPL_DM_SEQ_ALIAS
+	imply SPL_OF_LIBFDT
+
+config TARGET_RSB4221A1_512M
+	bool "Support rsb4221 512M for hw version A103-1"
+	select BOARD_LATE_INIT
+	select DM
+	select DM_SERIAL
+	select DM_GPIO
+	select TARGET_AM335X_ADVANTECH
+	imply SPL_ENV_SUPPORT
+	imply SPL_EXT_SUPPORT
+	imply SPL_FAT_SUPPORT
+	imply SPL_GPIO_SUPPORT
+	imply SPL_I2C_SUPPORT
+	imply SPL_LIBCOMMON_SUPPORT
+	imply SPL_LIBDISK_SUPPORT
+	imply SPL_LIBGENERIC_SUPPORT
+	imply SPL_MMC_SUPPORT
+	imply SPL_NAND_SUPPORT
+	imply SPL_POWER_SUPPORT
+	imply SPL_SERIAL_SUPPORT
+	imply SPL_WATCHDOG_SUPPORT
+	imply SPL_YMODEM_SUPPORT
+	imply SPL_SYS_MALLOC_SIMPLE
+	imply SPL_SEPARATE_BSS
+	imply SPL_DM
+	imply SPL_DM_SEQ_ALIAS
+	imply SPL_OF_LIBFDT
+
+config TARGET_RSB4221A1_1G
+	bool "Support rsb4221 1G for hw version A103-1"
+	select BOARD_LATE_INIT
+	select DM
+	select DM_SERIAL
+	select DM_GPIO
+	select TARGET_AM335X_ADVANTECH
+	imply SPL_ENV_SUPPORT
+	imply SPL_EXT_SUPPORT
+	imply SPL_FAT_SUPPORT
+	imply SPL_GPIO_SUPPORT
+	imply SPL_I2C_SUPPORT
+	imply SPL_LIBCOMMON_SUPPORT
+	imply SPL_LIBDISK_SUPPORT
+	imply SPL_LIBGENERIC_SUPPORT
+	imply SPL_MMC_SUPPORT
+	imply SPL_NAND_SUPPORT
+	imply SPL_POWER_SUPPORT
+	imply SPL_SERIAL_SUPPORT
+	imply SPL_WATCHDOG_SUPPORT
+	imply SPL_YMODEM_SUPPORT
+	imply SPL_SYS_MALLOC_SIMPLE
+	imply SPL_SEPARATE_BSS
+	imply SPL_DM
+	imply SPL_DM_SEQ_ALIAS
+	imply SPL_OF_LIBFDT
+
+config TARGET_ROM3310A1_512M
+        bool "Support rom3310 512M for hw version A101-2"
+        select BOARD_LATE_INIT
+        select DM
+        select DM_SERIAL
+        select DM_GPIO
+        select TARGET_AM335X_ADVANTECH
+        imply SPL_ENV_SUPPORT
+        imply SPL_EXT_SUPPORT
+        imply SPL_FAT_SUPPORT
+        imply SPL_GPIO_SUPPORT
+        imply SPL_I2C_SUPPORT
+        imply SPL_LIBCOMMON_SUPPORT
+        imply SPL_LIBDISK_SUPPORT
+        imply SPL_LIBGENERIC_SUPPORT
+        imply SPL_MMC_SUPPORT
+        imply SPL_NAND_SUPPORT
+        imply SPL_POWER_SUPPORT
+        imply SPL_SERIAL_SUPPORT
+        imply SPL_WATCHDOG_SUPPORT
+        imply SPL_YMODEM_SUPPORT
+        imply SPL_SYS_MALLOC_SIMPLE
+        imply SPL_SEPARATE_BSS
+        imply SPL_DM
+        imply SPL_DM_SEQ_ALIAS
+        imply SPL_OF_LIBFDT
+
+config TARGET_EPCR3220A1_1G
+        bool "Support epc-r3220 1G for hw version A101-1"
+        select BOARD_LATE_INIT
+        select DM
+        select DM_SERIAL
+        select DM_GPIO
+        select TARGET_AM335X_ADVANTECH
+        imply SPL_ENV_SUPPORT
+        imply SPL_EXT_SUPPORT
+        imply SPL_FAT_SUPPORT
+        imply SPL_GPIO_SUPPORT
+        imply SPL_I2C_SUPPORT
+        imply SPL_LIBCOMMON_SUPPORT
+        imply SPL_LIBDISK_SUPPORT
+        imply SPL_LIBGENERIC_SUPPORT
+        imply SPL_MMC_SUPPORT
+        imply SPL_NAND_SUPPORT
+        imply SPL_POWER_SUPPORT
+        imply SPL_SERIAL_SUPPORT
+        imply SPL_WATCHDOG_SUPPORT
+        imply SPL_YMODEM_SUPPORT
+        imply SPL_SYS_MALLOC_SIMPLE
+        imply SPL_SEPARATE_BSS
+        imply SPL_DM
+        imply SPL_DM_SEQ_ALIAS
+        imply SPL_OF_LIBFDT
+
 config TARGET_BAV335X
 	bool "Support bav335x"
 	select BOARD_LATE_INIT

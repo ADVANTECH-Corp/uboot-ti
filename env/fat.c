@@ -21,7 +21,7 @@
 
 #ifdef CONFIG_SPL_BUILD
 /* TODO(sjg@chromium.org): Figure out why this is needed */
-# if !defined(CONFIG_TARGET_AM335X_EVM) || defined(CONFIG_SPL_OS_BOOT)
+# if !(defined(CONFIG_TARGET_AM335X_EVM) || defined(CONFIG_TARGET_AM335X_ADVANTECH)) || defined(CONFIG_SPL_OS_BOOT)
 #  define LOADENV
 # endif
 #else

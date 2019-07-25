@@ -48,7 +48,9 @@ obj-$(CONFIG_ENV_IS_IN_MMC) += mmc.o
 obj-$(CONFIG_ENV_IS_IN_FAT) += fat.o
 obj-$(CONFIG_ENV_IS_IN_EXT4) += ext4.o
 obj-$(CONFIG_ENV_IS_IN_NAND) += nand.o
+ifndef CONFIG_TARGET_AM335X_ADVANTECH
 obj-$(CONFIG_ENV_IS_IN_SPI_FLASH) += sf.o
+endif
 obj-$(CONFIG_ENV_IS_IN_FLASH) += flash.o
 endif
 endif

@@ -166,4 +166,8 @@ static int spl_spi_load_image(struct spl_image_info *spl_image,
 }
 
 /* Use priorty 1 so that boards can override this */
+#if(defined(CONFIG_ADVANTECH_EMMC_BOOT) && defined(CONFIG_SPL_BUILD))
+SPL_LOAD_IMAGE_METHOD("SPI", 1, BOOT_DEVICE_SPI, spl_mmc_load_image);
+#else
 SPL_LOAD_IMAGE_METHOD("SPI", 1, BOOT_DEVICE_SPI, spl_spi_load_image);
+#endif

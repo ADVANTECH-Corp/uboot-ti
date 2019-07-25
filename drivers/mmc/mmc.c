@@ -2699,6 +2699,32 @@ int mmc_init(struct mmc *mmc)
 
 	upriv->mmc = mmc;
 #endif
+#if !defined(CONFIG_SPL_BUILD) && (defined(CONFIG_SDIO_SEL))
+	char *s;
+	if( env_get("M2_WIFIFlag") != NULL)
+	{
+		s = env_get("M2_WIFIFlag");
+		if(0 == strcmp(s, "TRUE"))
+		{
+			gpio_request(SDIO_SEL, "sdio_sel");
+			gpio_direction_output(SDIO_SEL, 0);
+			gpio_set_value(SDIO_SEL, 0);
+		}
+		else
+		{
+			gpio_request(SDIO_SEL, "sdio_sel");
+			gpio_direction_output(SDIO_SEL, 0);
+			gpio_set_value(SDIO_SEL, 1);
+		}
+	}
+	else
+	{
+		gpio_request(SDIO_SEL, "sdio_sel");
+		gpio_direction_output(SDIO_SEL, 0);
+		gpio_set_value(SDIO_SEL, 1);
+	}
+#endif
+
 	if (mmc->has_init)
 		return 0;
 
