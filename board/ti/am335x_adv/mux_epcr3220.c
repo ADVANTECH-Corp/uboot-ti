@@ -225,16 +225,16 @@ void enable_board_pin_mux(void)
 void config_phy_reg(const char *devname, unsigned char addr)
 {
 	/*Enable RXC SSC*/
-	miiphy_write(devname, addr, 0x1f, 0x0c44);
-	miiphy_write(devname, addr, 0x13, 0x5f00);
-	miiphy_write(devname, addr, 0x1f, 0x0000);
-	miiphy_write(devname, addr, 0x00, 0x9200);
+	//miiphy_write(devname, addr, 0x1f, 0x0c44);
+	//miiphy_write(devname, addr, 0x13, 0x5f00);
+	//miiphy_write(devname, addr, 0x1f, 0x0000);
+	//miiphy_write(devname, addr, 0x00, 0x9200);
 
 	/*CLK_OUT disable*/
-	miiphy_write(devname, addr, 0x1f, 0x0a43);
-	miiphy_write(devname, addr, 0x19, 0x0862);
-	miiphy_write(devname, addr, 0x1f, 0x0000);
-	miiphy_write(devname, addr, 0x00, 0x9200);
+	//miiphy_write(devname, addr, 0x1f, 0x0a43);
+	//miiphy_write(devname, addr, 0x19, 0x0862);
+	//miiphy_write(devname, addr, 0x1f, 0x0000);
+	//miiphy_write(devname, addr, 0x00, 0x9200);
 
 	/*Enable TX_delay*/
 	//miiphy_write(devname, addr, 0x1f, 0x0d08);
