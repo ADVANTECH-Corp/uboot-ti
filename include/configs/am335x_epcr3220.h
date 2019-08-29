@@ -354,6 +354,8 @@
 #define UART_POWER		GPIO_TO_PIN(2, 25)
 #define PCIE_PWR_EN		GPIO_TO_PIN(3, 21)
 #define PCIE_RST		GPIO_TO_PIN(2, 23)
+#define ADV_WDT_EN		GPIO_TO_PIN(2, 5)
+#define ADV_WDT_GPIO		GPIO_TO_PIN(2, 4)
 
 /*#define DEBUG*/
 

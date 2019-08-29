@@ -265,3 +265,15 @@ void adv_pcie_timing(void)
 	udelay(500000);
 	gpio_set_value(PCIE_RST, 1);
 }
+
+void adv_wdt_default_setting(void)
+{
+        gpio_request(ADV_WDT_EN, "adv_wdt_en");
+        gpio_request(ADV_WDT_GPIO, "adv_wdt_gpio");
+        gpio_direction_output(ADV_WDT_EN, 0);
+        gpio_direction_output(ADV_WDT_GPIO, 0);
+        gpio_set_value(ADV_WDT_EN, 0);
+        gpio_set_value(ADV_WDT_GPIO, 0);
+}
+
+

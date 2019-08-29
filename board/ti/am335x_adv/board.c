@@ -246,6 +246,10 @@ void sdram_init(void)
 	adv_pcie_timing();
 #endif
 
+#ifdef ADV_WDT_EN
+	adv_wdt_default_setting();
+#endif
+
 	config_ddr(400, &ioregs_evm15, &ddr3_evm_data,
 		   &ddr3_evm_cmd_ctrl_data, &ddr3_evm_emif_reg_data, 0);
 }
