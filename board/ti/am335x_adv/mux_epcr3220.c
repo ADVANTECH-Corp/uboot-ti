@@ -128,6 +128,11 @@ static struct module_pin_mux vtten_pin_mux[] = {
 	{-1},
 };
 
+static struct module_pin_mux adv_wdt_pin_mux[] = {
+	{OFFSET(gpmc_wen), (MODE(7) | PULLUDEN | PULLDOWN_EN)},             /* GPIO2_4 */
+	{OFFSET(gpmc_be0n_cle), (MODE(7) | PULLUDEN | PULLDOWN_EN)},             /* GPIO2_5 */
+	{-1},
+};
 static struct module_pin_mux adv_gpio_pin_mux[] = {
 	{OFFSET(lcd_ac_bias_en), (MODE(7) | PULLUDEN | PULLUP_EN)},		/* GPIO2_25 */
 	{OFFSET(mcasp0_ahclkx), (MODE(7) | PULLUDEN | PULLDOWN_EN)},	/* GPIO3_21 */
@@ -220,6 +225,7 @@ void enable_board_pin_mux(void)
 	configure_module_pin_mux(spi0_pin_mux);
 	configure_module_pin_mux(spi1_pin_mux);
 	configure_module_pin_mux(adv_gpio_pin_mux);
+	configure_module_pin_mux(adv_wdt_pin_mux);
 }
 
 void config_phy_reg(const char *devname, unsigned char addr)
