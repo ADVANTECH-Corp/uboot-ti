@@ -41,6 +41,8 @@
 
 DECLARE_GLOBAL_DATA_PTR;
 
+static void  board_set_boot_device(void);
+
 static struct ctrl_dev *cdev = (struct ctrl_dev *)CTRL_DEVICE_BASE;
 
 #define GPIO0_RISINGDETECT	(AM33XX_GPIO0_BASE + OMAP_GPIO_RISINGDETECT)
@@ -281,6 +283,7 @@ int board_late_init(void)
 	gpio_direction_output(UART_POWER, 0);
 	gpio_set_value(UART_POWER, 1);
 #endif
+	board_set_boot_device();
 	return 0;
 }
 #endif
@@ -504,4 +507,72 @@ U_BOOT_DEVICE(am335x_mmc1) = {
 	.name = "omap_hsmmc",
 	.platdata = &am335x_mmc1_platdata,
 };
+#endif
+
+#ifndef CONFIG_SPL_BUILD
+static void  board_set_boot_device(void)
+{
+    int dev = (*(int *)CONFIG_SPL_PARAM_ADDR);
+    int bcb_flag;
+    char *s;
+
+#ifdef CONFIG_ADV_OTA_SUPPORT
+    if (dev == 1)
+    {
+        bcb_flag= recovery_check_and_clean_command();
+    }
+    switch(dev) {
+	case 0:
+        /* booting from MMC0(SD)*/
+		printf("booting from SD\n");
+                env_set("boot_targets","mmc0 legacy_mmc0 nand0 pxe dhcp");
+                env_set("bootcmd_legacy_mmc0","setenv mmcdev 0; setenv bootpart 0:2 ; run mmcboot");
+		break;
+	case 1:
+		/* booting from MMC1(Nand)& No image in SD*/
+		printf("booting from MMC2\n");
+		if(bcb_flag)
+		{
+			env_set("boot_targets","mmc1 legacy_mmc1 nand0 pxe dhcp");
+			env_set("bootcmd_legacy_mmc1","setenv mmcdev 1; setenv bootpart 1:3 ; run mmcboot");
+		}
+		else
+		{
+                        env_set("boot_targets","mmc1 legacy_mmc1 nand0 pxe dhcp");
+                        env_set("bootcmd_legacy_mmc1","setenv mmcdev 1; setenv bootpart 1:2 ; run mmcboot");
+		}
+		break;
+	default:
+		/* booting from MMC1(Nand) & no insert SD.*/
+		printf("booting from MMC2\n");
+		if(bcb_flag)
+		{
+                        env_set("boot_targets","mmc1 legacy_mmc1 nand0 pxe dhcp");
+                        env_set("bootcmd_legacy_mmc1","setenv mmcdev 1; setenv bootpart 1:3 ; run mmcboot");
+		}
+		break;
+	}
+#elif
+    switch(dev) {
+        case 0:
+        /* booting from MMC0(SD)*/
+                printf("booting from SD\n");
+                env_set("boot_targets","mmc0 legacy_mmc0 nand0 pxe dhcp");
+                env_set("bootcmd_legacy_mmc0","setenv mmcdev 0; setenv bootpart 0:2 ; run mmcboot");
+                break;
+        case 1:
+                /* booting from MMC1(Nand)& No image in SD*/
+                printf("booting from MMC2\n");
+                env_set("boot_targets","mmc1 legacy_mmc1 nand0 pxe dhcp");
+                env_set("bootcmd_legacy_mmc1","setenv mmcdev 1; setenv bootpart 1:2 ; run mmcboot");
+                break;
+        default:
+                /* booting from MMC1(Nand) & no insert SD.*/
+                printf("booting from MMC2\n");
+                env_set("boot_targets","mmc1 legacy_mmc1 nand0 pxe dhcp");
+                env_set("bootcmd_legacy_mmc1","setenv mmcdev 1; setenv bootpart 1:2 ; run mmcboot");
+                break;
+        }
+#endif
+}
 #endif

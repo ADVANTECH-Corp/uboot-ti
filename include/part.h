@@ -17,6 +17,10 @@ struct block_drvr {
 	int (*select_hwpart)(int dev_num, int hwpart);
 };
 
+#ifdef CONFIG_ADV_OTA_SUPPORT
+typedef struct blk_desc blk_desc_t;
+#endif
+
 #define LOG2(x) (((x & 0xaaaaaaaa) ? 1 : 0) + ((x & 0xcccccccc) ? 2 : 0) + \
 		 ((x & 0xf0f0f0f0) ? 4 : 0) + ((x & 0xff00ff00) ? 8 : 0) + \
 		 ((x & 0xffff0000) ? 16 : 0))
