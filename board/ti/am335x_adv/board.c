@@ -552,7 +552,7 @@ static void  board_set_boot_device(void)
 		}
 		break;
 	}
-#elif
+#else
     switch(dev) {
         case 0:
         /* booting from MMC0(SD)*/
