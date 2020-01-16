@@ -283,6 +283,11 @@ int board_late_init(void)
 	gpio_direction_output(UART_POWER, 0);
 	gpio_set_value(UART_POWER, 1);
 #endif
+
+#ifdef ADV_WDT_GPIO
+	adv_wdt_feed();
+#endif
+
 	board_set_boot_device();
 	return 0;
 }

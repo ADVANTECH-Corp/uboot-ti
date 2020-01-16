@@ -225,7 +225,7 @@ void enable_board_pin_mux(void)
 	configure_module_pin_mux(spi0_pin_mux);
 	configure_module_pin_mux(spi1_pin_mux);
 	configure_module_pin_mux(adv_gpio_pin_mux);
-	configure_module_pin_mux(adv_wdt_pin_mux);
+	//configure_module_pin_mux(adv_wdt_pin_mux);
 }
 
 void config_phy_reg(const char *devname, unsigned char addr)
@@ -269,11 +269,14 @@ void adv_pcie_timing(void)
 void adv_wdt_default_setting(void)
 {
         gpio_request(ADV_WDT_EN, "adv_wdt_en");
-        gpio_request(ADV_WDT_GPIO, "adv_wdt_gpio");
         gpio_direction_output(ADV_WDT_EN, 0);
-        gpio_direction_output(ADV_WDT_GPIO, 0);
         gpio_set_value(ADV_WDT_EN, 0);
-        gpio_set_value(ADV_WDT_GPIO, 0);
 }
 
+void adv_wdt_feed(void)
+{
+	gpio_request(ADV_WDT_GPIO, "adv_wdt_gpio");
+	gpio_direction_output(ADV_WDT_GPIO, 0);
+	gpio_set_value(ADV_WDT_GPIO, 0);
+}
 
