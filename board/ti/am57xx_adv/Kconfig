@@ -1,0 +1,46 @@
+
+if TARGET_AM57XX_ADVANTECH
+
+config SYS_VENDOR
+	default "ti"
+
+config SYS_BOARD
+	default "am57xx_adv"
+
+config TARGET_ROM7510A1_2G
+	bool "Advantech ROM7510 platform for hw version a101-1"
+
+if TARGET_ROM7510A1_2G
+config SYS_BOARD_NAME
+	string
+	default "rom7510a1"
+
+config SYS_CONFIG_NAME
+	default "am57xx_rom7510a1"
+endif
+
+config TARGET_ROM7510A2_2G
+        bool "Advantech ROM7510 platform for hw version a101-3"
+
+if TARGET_ROM7510A2_2G
+config SYS_BOARD_NAME
+        string
+        default "rom7510a2"
+
+config SYS_CONFIG_NAME
+        default "am57xx_rom7510a2"
+endif
+
+config CONS_INDEX
+        int "UART used for console"
+        range 1 6
+        default 3
+        help
+          The AM57x (and DRA7xx) SoC has a total of 6 UARTs available to it.
+          Depending on your specific board you may want something other than UART3
+          here.
+
+source "board/ti/common/Kconfig"
+
+endif
+

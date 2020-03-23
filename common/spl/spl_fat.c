@@ -60,7 +60,7 @@ int spl_load_image_fat_buf(struct spl_image_info *spl_image,
 {
 	int err;
 	struct image_header *header;
-#if defined(CONFIG_TARGET_AM335X_ADVANTECH) && defined(CONFIG_SPL_BUILD)
+#if (defined(CONFIG_TARGET_AM335X_ADVANTECH) ||defined(CONFIG_TARGET_AM57XX_ADVANTECH)) && defined(CONFIG_SPL_BUILD)
 	fat_registered = 0;
 #endif
 

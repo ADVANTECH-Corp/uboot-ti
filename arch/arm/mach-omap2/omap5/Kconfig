@@ -45,6 +45,17 @@ config TARGET_AM57XX_EVM
 	imply DM_THERMAL
 	imply TI_DRA7_THERMAL
 
+config TARGET_AM57XX_ADVANTECH
+	bool "Support AM57XX Advantech platform"
+	select BOARD_LATE_INIT
+	select DRA7XX
+	select TI_I2C_BOARD_DETECT
+	select CMD_DDR3
+	imply SCSI
+	imply SPL_THERMAL
+	imply DM_THERMAL
+	imply TI_DRA7_THERMAL
+
 endchoice
 
 config SYS_SOC
@@ -67,7 +78,7 @@ config OMAP_PLATFORM_RESET_TIME_MAX_USEC
 	  3: Voltage ramp time, which can be derived using the PMIC slew rate
 	     and value of voltage ramp needed.
 
-if TARGET_DRA7XX_EVM || TARGET_AM57XX_EVM
+if TARGET_DRA7XX_EVM || TARGET_AM57XX_EVM || TARGET_AM57XX_ADVANTECH
 menu "Voltage Domain OPP selections"
 
 choice
@@ -165,5 +176,6 @@ source "board/compulab/cm_t54/Kconfig"
 source "board/ti/omap5_uevm/Kconfig"
 source "board/ti/dra7xx/Kconfig"
 source "board/ti/am57xx/Kconfig"
+source "board/ti/am57xx_adv/Kconfig"
 
 endif

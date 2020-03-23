@@ -56,6 +56,7 @@
 
 #ifdef CONFIG_OMAP54XX
 
+#ifndef CONFIG_TARGET_AM57XX_ADVANTECH
 #define DEFAULT_FDT_TI_ARGS \
 	"findfdt="\
 		"if test $board_name = omap5_uevm; then " \
@@ -102,6 +103,11 @@
 			"setenv fdtfile am571x-idk-lcd-osd101t2587.dtb; fi;" \
 		"if test $fdtfile = undefined; then " \
 			"echo WARNING: Could not determine device tree to use; fi; \0"
+#else
+#define DEFAULT_FDT_TI_ARGS \
+	"findfdt="\
+		"setenv fdtfile am57xx-${board_name}.dtb; \0"
+#endif
 
 #define CONFIG_BOOTCOMMAND \
 	"if test ${dofastboot} -eq 1; then " \
