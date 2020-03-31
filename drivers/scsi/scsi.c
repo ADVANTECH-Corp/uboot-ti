@@ -13,6 +13,10 @@
 #include <dm/device-internal.h>
 #include <dm/uclass-internal.h>
 
+#ifdef CONFIG_TARGET_ROM7510A1_2G
+#include <asm/io.h>
+#endif
+
 #if !defined(CONFIG_DM_SCSI)
 # ifdef CONFIG_SCSI_DEV_LIST
 #  define SCSI_DEV_LIST CONFIG_SCSI_DEV_LIST
@@ -682,6 +686,10 @@ int scsi_scan(bool verbose)
 
 	printf("Found %d device(s).\n", scsi_max_devs);
 #ifndef CONFIG_SPL_BUILD
+#ifdef CONFIG_TARGET_ROM7510A1_2G
+	if(scsi_max_devs>0)
+		writel(0x2,0x4a0037b4 );
+#endif
 	env_set_ulong("scsidevs", scsi_max_devs);
 #endif
 	return 0;
