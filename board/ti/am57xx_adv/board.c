@@ -12,6 +12,8 @@
 #include <palmas.h>
 #include <sata.h>
 #include <usb.h>
+#include <spi.h>
+#include <spi_flash.h>
 #include <asm/omap_common.h>
 #include <asm/omap_sec_common.h>
 #include <asm/emif.h>
@@ -245,7 +247,7 @@ static void adv_board_set_ethaddr(void)
 		valid = is_valid_ethaddr(enetaddr);
 	}
 	if (valid)
-		eth_setenv_enetaddr("ethaddr", enetaddr);
+		eth_env_set_enetaddr("ethaddr", enetaddr);
 	else
 		puts("Skipped ethaddr assignment due to invalid,using default!\n");
 

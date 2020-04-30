@@ -21,22 +21,13 @@
 
 #define CONFIG_NR_DRAM_BANKS		2
 
-/* MMC ENV related defines */
-#define CONFIG_SYS_MMC_ENV_DEV		1		/* eMMC */
-#define CONFIG_SYS_MMC_ENV_PART		0
-#define CONFIG_ENV_SIZE			SZ_128K
-#define CONFIG_ENV_OFFSET		0x260000
-#define CONFIG_ENV_OFFSET_REDUND	(CONFIG_ENV_OFFSET + CONFIG_ENV_SIZE)
-#define CONFIG_SYS_REDUNDAND_ENVIRONMENT
+#define CONFIG_ADVANTECH_EMMC_BOOT
+#define CONFIG_SPL_PARAM_ADDR (0XC1000000)
 
 #define CONSOLEDEV			"ttyO2"
 #define CONFIG_SYS_NS16550_COM1		UART1_BASE	/* Base EVM has UART0 */
 #define CONFIG_SYS_NS16550_COM2		UART2_BASE	/* UART2 */
 #define CONFIG_SYS_NS16550_COM3		UART3_BASE	/* UART3 */
-
-#define CONFIG_ENV_EEPROM_IS_ON_I2C
-#define CONFIG_SYS_I2C_EEPROM_ADDR	0x50	/* Main EEPROM */
-#define CONFIG_SYS_I2C_EEPROM_ADDR_LEN	2
 
 #define CONFIG_SYS_OMAP_ABE_SYSCK
 
@@ -102,6 +93,14 @@
 #define CONFIG_SYS_SCSI_MAX_DEVICE	(CONFIG_SYS_SCSI_MAX_SCSI_ID * \
 						CONFIG_SYS_SCSI_MAX_LUN)
 
+#undef CONFIG_DM_SPI_FLASH
+
+/* QSPI */
+/* Change the Omap3 spi to ti Qspi. */
+#ifdef CONFIG_OMAP3_SPI
+#undef CONFIG_OMAP3_SPI
+#endif
+
 /*
  * Default to using SPI for environment, etc.
  * 0x000000 - 0x040000 : QSPI.SPL (256KiB)
@@ -126,5 +125,19 @@
 #define CONFIG_SF_DEFAULT_SPEED                76800000
 #define CONFIG_SF_DEFAULT_MODE                 SPI_MODE_0
 #define CONFIG_QSPI_QUAD_SUPPORT
+#define CONFIG_SF_DEFAULT_BUS			0
+#define CONFIG_SF_DEFAULT_CS			0
+
+/* SPI ENV related defines */
+#define CONFIG_SYS_REDUNDAND_ENVIRONMENT
+#define CONFIG_ENV_SPI_MAX_HZ           CONFIG_SF_DEFAULT_SPEED
+#define CONFIG_ENV_SIZE                 (64 << 10)
+#define CONFIG_ENV_SECT_SIZE            (64 << 10) /* 64 KB sectors */
+#define CONFIG_ENV_OFFSET               0x00310000
+#define CONFIG_ENV_OFFSET_REDUND        0x00320000
+
+/* MAC */
+#define CONFIG_MAC_IN_QSPI                      (1)
+#define CONFIG_MAC_OFFSET                       (0x300000)
 
 #endif /* __CONFIG_AM57XX_ROM7510A1_H */

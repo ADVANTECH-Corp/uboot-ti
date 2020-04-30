@@ -346,7 +346,7 @@ static int boot_from_devices(struct spl_image_info *spl_image,
 {
 	int i;
 
-#ifdef CONFIG_TARGET_AM335X_ADVANTECH
+#if defined(CONFIG_TARGET_AM335X_ADVANTECH) || defined(CONFIG_TARGET_AM57XX_ADVANTECH)
 	int  * bootdevice = (int *)CONFIG_SPL_PARAM_ADDR;
 #endif
 
@@ -361,7 +361,7 @@ static int boot_from_devices(struct spl_image_info *spl_image,
 			puts("SPL: Unsupported Boot Device!\n");
 #endif
 
-#ifdef CONFIG_TARGET_AM335X_ADVANTECH
+#if defined(CONFIG_TARGET_AM335X_ADVANTECH) || defined(CONFIG_TARGET_AM57XX_ADVANTECH)
 		if(spl_boot_list[i] == BOOT_DEVICE_MMC1)
 			*bootdevice = 0;
 		else if(spl_boot_list[i] == BOOT_DEVICE_MMC2)
@@ -458,6 +458,7 @@ void board_init_r(gd_t *dummy1, ulong dummy2)
 	board_boot_order(spl_boot_list);
 
 #if(defined(CONFIG_ADVANTECH_EMMC_BOOT) && defined(CONFIG_SPL_BUILD))
+#ifdef CONFIG_TARGET_AM335X_ADVANTECH
 	if(spl_boot_list[0] == 11){
 		spl_boot_list[0] = BOOT_DEVICE_MMC2;
 		spl_boot_list[1] = BOOT_DEVICE_MMC1;
@@ -465,7 +466,18 @@ void board_init_r(gd_t *dummy1, ulong dummy2)
 	else if(spl_boot_list[0] == 8){
 		spl_boot_list[0] = BOOT_DEVICE_MMC1;
 		spl_boot_list[1] = BOOT_DEVICE_MMC2;
-}
+	}
+#endif
+#ifdef CONFIG_TARGET_AM57XX_ADVANTECH
+	if(spl_boot_list[0] == 10){
+		spl_boot_list[0] = BOOT_DEVICE_MMC2;
+		spl_boot_list[1] = BOOT_DEVICE_MMC1;
+	}
+	else if(spl_boot_list[0] == 5){
+		spl_boot_list[0] = BOOT_DEVICE_MMC1;
+		spl_boot_list[1] = BOOT_DEVICE_MMC2;
+	}
+#endif
 #endif
 
 	if (boot_from_devices(&spl_image, spl_boot_list,

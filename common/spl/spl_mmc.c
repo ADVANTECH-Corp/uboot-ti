@@ -267,7 +267,7 @@ static int spl_mmc_do_fs_boot(struct spl_image_info *spl_image, struct mmc *mmc,
 	err = spl_load_image_fat_buf(spl_image, mmc_get_blk_desc(mmc),
 				     CONFIG_SYS_MMCSD_FS_BOOT_PARTITION,
 				     filename, buffer);
-#ifdef CONFIG_TARGET_AM335X_ADVANTECH
+#if(defined(CONFIG_TARGET_AM335X_ADVANTECH) || defined(CONFIG_TARGET_AM57XX_ADVANTECH))
 	return err;
 #else
 	if (!err)
