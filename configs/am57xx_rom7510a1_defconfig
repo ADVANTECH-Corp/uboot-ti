@@ -885,7 +885,6 @@ CONFIG_MMC_OMAP_HS=y
 #
 # SPI Flash Support
 #
-# CONFIG_DM_SPI_FLASH is not set
 CONFIG_SPI_FLASH=y
 CONFIG_SPI_FLASH_BAR=y
 # CONFIG_SF_DUAL_FLASH is not set
@@ -1058,20 +1057,7 @@ CONFIG_SYS_NS16550=y
 #
 # SPI Support
 #
-CONFIG_DM_SPI=y
-# CONFIG_ALTERA_SPI is not set
-# CONFIG_CADENCE_QSPI is not set
-# CONFIG_DESIGNWARE_SPI is not set
-# CONFIG_EXYNOS_SPI is not set
-# CONFIG_FSL_DSPI is not set
-# CONFIG_ICH_SPI is not set
-# CONFIG_MVEBU_A3700_SPI is not set
-# CONFIG_ROCKCHIP_SPI is not set
-# CONFIG_TEGRA114_SPI is not set
-# CONFIG_TEGRA20_SFLASH is not set
-# CONFIG_TEGRA20_SLINK is not set
-# CONFIG_TEGRA210_QSPI is not set
-# CONFIG_XILINX_SPI is not set
+# CONFIG_DM_SPI is not set
 # CONFIG_SOFT_SPI is not set
 # CONFIG_FSL_ESPI is not set
 # CONFIG_FSL_QSPI is not set

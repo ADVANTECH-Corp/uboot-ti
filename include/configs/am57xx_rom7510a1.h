@@ -93,14 +93,6 @@
 #define CONFIG_SYS_SCSI_MAX_DEVICE	(CONFIG_SYS_SCSI_MAX_SCSI_ID * \
 						CONFIG_SYS_SCSI_MAX_LUN)
 
-#undef CONFIG_DM_SPI_FLASH
-
-/* QSPI */
-/* Change the Omap3 spi to ti Qspi. */
-#ifdef CONFIG_OMAP3_SPI
-#undef CONFIG_OMAP3_SPI
-#endif
-
 /*
  * Default to using SPI for environment, etc.
  * 0x000000 - 0x040000 : QSPI.SPL (256KiB)
@@ -121,8 +113,9 @@
 #define CONFIG_SYS_SPI_U_BOOT_OFFS     0x40000
 
 /* SPI */
+#define CONFIG_QSPI_QUAD_SUPPORT
 #define CONFIG_TI_SPI_MMAP
-#define CONFIG_SF_DEFAULT_SPEED                76800000
+#define CONFIG_SF_DEFAULT_SPEED                (48000000)
 #define CONFIG_SF_DEFAULT_MODE                 SPI_MODE_0
 #define CONFIG_QSPI_QUAD_SUPPORT
 #define CONFIG_SF_DEFAULT_BUS			0
@@ -135,6 +128,8 @@
 #define CONFIG_ENV_SECT_SIZE            (64 << 10) /* 64 KB sectors */
 #define CONFIG_ENV_OFFSET               0x00310000
 #define CONFIG_ENV_OFFSET_REDUND        0x00320000
+#define CONFIG_ENV_SPI_BUS             0
+#define CONFIG_ENV_SPI_CS              0
 
 /* MAC */
 #define CONFIG_MAC_IN_QSPI                      (1)
