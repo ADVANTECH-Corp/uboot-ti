@@ -102,12 +102,10 @@
 #define CONFIG_SF_DEFAULT_CS			0
 
 /* SPI ENV related defines */
-#define CONFIG_SYS_REDUNDAND_ENVIRONMENT
 #define CONFIG_ENV_SPI_MAX_HZ           CONFIG_SF_DEFAULT_SPEED
 #define CONFIG_ENV_SIZE                 (64 << 10)
 #define CONFIG_ENV_SECT_SIZE            (64 << 10) /* 64 KB sectors */
 #define CONFIG_ENV_OFFSET               0x00310000
-#define CONFIG_ENV_OFFSET_REDUND        0x00320000
 #define CONFIG_ENV_SPI_BUS             0
 #define CONFIG_ENV_SPI_CS              0
 
