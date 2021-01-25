@@ -520,6 +520,12 @@ static void  board_set_boot_device(void)
     int dev = (*(int *)CONFIG_SPL_PARAM_ADDR);
     int bcb_flag;
     char *s;
+    int reboot_flag = 0;
+#ifdef CONFIG_ADV_BACKUP_SUPPORT
+    u32 * prm_rstst =(u32 *)PRM_RSTST;
+
+    reboot_flag = *prm_rstst & 0x2;
+#endif
 
 #ifdef CONFIG_ADV_OTA_SUPPORT
     if (dev == 1)
@@ -536,13 +542,16 @@ static void  board_set_boot_device(void)
 	case 1:
 		/* booting from MMC1(Nand)& No image in SD*/
 		printf("booting from MMC2\n");
-		if(bcb_flag)
+		if(bcb_flag || reboot_flag)
 		{
 			env_set("boot_targets","mmc1 legacy_mmc1 nand0 pxe dhcp");
 			env_set("bootcmd_legacy_mmc1","setenv mmcdev 1; setenv bootpart 1:3 ; run mmcboot");
 		}
 		else
 		{
+#ifdef CONFIG_ADV_BACKUP_SUPPORT
+			env_set("optargs", "adv_bootprocess.early_enable=1");
+#endif
                         env_set("boot_targets","mmc1 legacy_mmc1 nand0 pxe dhcp");
                         env_set("bootcmd_legacy_mmc1","setenv mmcdev 1; setenv bootpart 1:2 ; run mmcboot");
 		}
@@ -550,7 +559,7 @@ static void  board_set_boot_device(void)
 	default:
 		/* booting from MMC1(Nand) & no insert SD.*/
 		printf("booting from MMC2\n");
-		if(bcb_flag)
+		if(bcb_flag || reboot_flag)
 		{
                         env_set("boot_targets","mmc1 legacy_mmc1 nand0 pxe dhcp");
                         env_set("bootcmd_legacy_mmc1","setenv mmcdev 1; setenv bootpart 1:3 ; run mmcboot");
