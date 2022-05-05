@@ -560,6 +560,17 @@ static int cpsw_mdio_write(struct mii_dev *bus, int phy_id, int dev_addr,
 	return 0;
 }
 
+static int cpsw_mdio_reset(struct mii_dev *bus)
+{
+#ifdef PHY_RESET_GPIO
+	gpio_request(PHY_RESET_GPIO, "phy_reset_gpio");
+	gpio_direction_output(PHY_RESET_GPIO, 1);
+	gpio_free(PHY_RESET_GPIO);
+	mdelay(20);
+#endif
+	return 0;
+}
+
 static void cpsw_mdio_init(const char *name, u32 mdio_base, u32 div)
 {
 	struct mii_dev *bus = mdio_alloc();
@@ -581,6 +592,7 @@ static void cpsw_mdio_init(const char *name, u32 mdio_base, u32 div)
 
 	bus->read = cpsw_mdio_read;
 	bus->write = cpsw_mdio_write;
+	bus->reset = cpsw_mdio_reset;
 	strcpy(bus->name, name);
 
 	mdio_register(bus);
