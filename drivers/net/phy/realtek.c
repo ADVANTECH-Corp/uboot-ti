@@ -95,7 +95,13 @@ static int rtl8211f_config(struct phy_device *phydev)
 	/* Set green LED for Link, yellow LED for Active */
 	phy_write(phydev, MDIO_DEVAD_NONE,
 		  MIIM_RTL8211F_PAGE_SELECT, 0xd04);
+	
+#ifdef CONFIG_TARGET_AM57XX_ADVANTECH
+	phy_write(phydev, MDIO_DEVAD_NONE, 0x10, 0xa050);
+	phy_write(phydev, MDIO_DEVAD_NONE, 0x11, 0x0000);
+#else
 	phy_write(phydev, MDIO_DEVAD_NONE, 0x10, 0x617f);
+#endif
 	phy_write(phydev, MDIO_DEVAD_NONE,
 		  MIIM_RTL8211F_PAGE_SELECT, 0x0);
 
