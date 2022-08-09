@@ -80,6 +80,7 @@ static int rtl8211f_config(struct phy_device *phydev)
 
 	phy_write(phydev, MDIO_DEVAD_NONE, MII_BMCR, BMCR_RESET);
 
+#ifndef CONFIG_TARGET_AM57XX_ADVANTECH
 	if (phydev->interface == PHY_INTERFACE_MODE_RGMII) {
 		/* enable TXDLY */
 		phy_write(phydev, MDIO_DEVAD_NONE,
@@ -91,6 +92,7 @@ static int rtl8211f_config(struct phy_device *phydev)
 		phy_write(phydev, MDIO_DEVAD_NONE,
 			  MIIM_RTL8211F_PAGE_SELECT, 0x0);
 	}
+#endif
 
 	/* Set green LED for Link, yellow LED for Active */
 	phy_write(phydev, MDIO_DEVAD_NONE,

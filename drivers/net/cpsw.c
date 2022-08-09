@@ -566,7 +566,7 @@ static int cpsw_mdio_reset(struct mii_dev *bus)
 	gpio_request(PHY_RESET_GPIO, "phy_reset_gpio");
 	gpio_direction_output(PHY_RESET_GPIO, 1);
 	gpio_free(PHY_RESET_GPIO);
-	mdelay(20);
+	mdelay(75);
 #endif
 	return 0;
 }
