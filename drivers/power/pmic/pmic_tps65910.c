@@ -118,13 +118,13 @@ int tps65910_voltage_update(unsigned int module, unsigned char vddx_op_vol_sel)
 		return 1;
 
 #ifdef PMIC_VDD_ILMAX_1_5_A
-	ret = i2c_read(TPS65910_CTRL_I2C_ADDR, reg_offset - 1, 1, &buf, 1);
+	ret = tps65910_read_reg( reg_offset - 1,, &buf,);
 	if (ret)
 		return ret;
 
 	buf |= TPS65910_REG_ILMAX_1_5_A;
 
-	ret = i2c_write(TPS65910_CTRL_I2C_ADDR, reg_offset - 1, 1, &buf, 1);
+	ret = tps65910_write_reg( reg_offset - 1, &buf,);
 	if (ret)
 		return ret;
 #endif
@@ -138,24 +138,24 @@ int adv_tps65910_config(void)
 	uchar buf;
         int ret;
 
-	ret = i2c_read(TPS65910_CTRL_I2C_ADDR, TPS65910_DCDCCTRL_REG, 1, &buf, 1);
+	ret = tps65910_read_reg(TPS65910_DCDCCTRL_REG, &buf);
 	if (ret)
 		return ret;
 
 	buf &= ~(TPS65910_DCDCCTRL_REG_VDD1_PSKIP);
 
-	ret = i2c_write(TPS65910_CTRL_I2C_ADDR, TPS65910_DCDCCTRL_REG, 1, &buf, 1);
+	ret = tps65910_write_reg(TPS65910_DCDCCTRL_REG, &buf);
 	if (ret)
 		return ret;
 
 #ifdef PMIC_VIO_ILMAX_1_0_A
-        ret = i2c_read(TPS65910_CTRL_I2C_ADDR, TPS65910_VIO_REG, 1, &buf, 1);
+        ret = tps65910_read_reg(TPS65910_VIO_REG, &buf);
         if (ret)
                 return ret;
 
         buf |= TPS65910_VIO_REG_ILMAX_1_0_A;
 
-        ret = i2c_write(TPS65910_CTRL_I2C_ADDR, TPS65910_VIO_REG, 1, &buf, 1);
+        ret = tps65910_write_reg(TPS65910_VIO_REG, &buf);
         if (ret)
                 return ret;
 #endif

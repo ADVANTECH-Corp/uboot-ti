@@ -264,6 +264,17 @@
  * 0x0E0000 - 0x442000 : Linux Kernel
  * 0x442000 - 0x800000 : Userland
  */
+
+/* SPI flash. */
+#define CONFIG_SF_DEFAULT_SPEED         24000000
+/* MAC Address on SPI Flash */
+#define CONFIG_MAC_ADDR_SPI_BUS   0
+#define CONFIG_MAC_ADDR_SPI_CS    0
+#define CONFIG_MAC_ADDR_SPI_HZ CONFIG_SF_DEFAULT_SPEED
+#define CONFIG_MAC_ADDR_SPI_MODE   3
+#define CONFIG_MAC_OFFSET       0x1D000
+#define CONFIG_SPL_PARAM_ADDR	(0XC1000000)
+
 #if defined(CONFIG_SPI_BOOT)
 /* SPL related */
 #elif defined(CONFIG_EMMC_BOOT)
@@ -274,6 +285,15 @@
 
 /* Network. */
 /* Enable Atheros phy driver */
+#define CONFIG_PHY_SMSC
+#define CONFIG_PHY_REALTEK
+
+#define CONFIG_ENABLE_EPHY0
+#define CONFIG_EPHY0_PHY_ADDR		3
+#define CONFIG_ENABLE_EPHY1
+#define CONFIG_EPHY1_PHY_ADDR		7
+#define CONFIG_ACTIVE_EPHY_NUM		2
+#define CONFIG_DEFAULT_ACTIVE_EPHY	0
 
 /*
  * NOR Size = 16 MiB
