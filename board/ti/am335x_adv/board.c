@@ -368,6 +368,8 @@ out:
 #ifdef CONFIG_BOARD_LATE_INIT
 int board_late_init(void)
 {
+        env_set("board_name", CONFIG_SYS_BOARD_NAME);
+
 #ifdef UART_POWER
 	gpio_request(UART_POWER, "uart_power");
 	gpio_direction_output(UART_POWER, 0);

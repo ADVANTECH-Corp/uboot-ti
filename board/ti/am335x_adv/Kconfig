@@ -15,6 +15,7 @@ config SYS_SOC
 if TARGET_EPCR3220A1_1G
 
 config SYS_BOARD_NAME
+        string
 	default "epcr3220a1"
 
 config SYS_CONFIG_NAME
