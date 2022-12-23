@@ -1,0 +1,33 @@
+# SPDX-License-Identifier: GPL-2.0+
+#
+# Copyright (C) 2020-2022 Texas Instruments Incorporated - https://www.ti.com/
+#	Suman Anna <s-anna@ti.com>
+
+choice
+	prompt "TI K3 AM62x based boards"
+	optional
+
+config TARGET_AM62x_A53_RS10
+	bool "TI K3 based AM625 RS10 running on A53"
+	select ARM64
+	select SOC_K3_AM625
+	imply BOARD
+	imply SPL_BOARD
+	imply TI_I2C_BOARD_DETECT
+
+endchoice
+
+if TARGET_AM62x_A53_RS10
+
+config SYS_BOARD
+       default "am62x"
+
+config SYS_VENDOR
+       default "ti"
+
+config SYS_CONFIG_NAME
+       default "am62x_rs10"
+
+source "board/ti/common/Kconfig"
+
+endif
