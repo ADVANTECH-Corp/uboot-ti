@@ -22,7 +22,7 @@
 #define CONFIG_SPL_FS_LOAD_PAYLOAD_NAME	"tispl.bin"
 #endif
 
-#if defined(CONFIG_TARGET_AM625_A53_EVM)
+#if defined(CONFIG_TARGET_AM62x_A53_RS10)
 #define CONFIG_SPL_MAX_SIZE		SZ_1M
 #define CONFIG_SYS_INIT_SP_ADDR         (CONFIG_SPL_TEXT_BASE + SZ_4M)
 #else
