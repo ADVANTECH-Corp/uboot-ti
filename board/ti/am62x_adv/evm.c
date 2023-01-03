@@ -19,7 +19,7 @@
 
 #include "../common/board_detect.h"
 
-#define board_is_am62x_rs10()          board_ti_k3_is("AM62-rs10")
+#define board_is_am62x_rs10()		board_ti_k3_is("AM62-SKEVM")
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -41,17 +41,20 @@ int dram_init_banksize(void)
 #if defined(CONFIG_SPL_LOAD_FIT)
 int board_fit_config_name_match(const char *name)
 {
+	return 0;
+	/*
 	bool eeprom_read = board_ti_was_eeprom_read();
 
 	if (!eeprom_read)
 		return -1;
 
 	if (board_is_am62x_rs10()) {
-		if (!strcmp(name, "k3-am62x-rs10"))
-                        return 0;
+		if (!strcmp(name, "k3-am62x-r5-rs10") || !strcmp(name, "k3-am62x-rs10"))
+			return 0;
 	}
 
 	return -1;
+	*/
 }
 #endif
 

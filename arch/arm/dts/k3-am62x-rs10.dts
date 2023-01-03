@@ -7,7 +7,7 @@
 
 /dts-v1/;
 
-#include "k3-am62x-sk-common.dtsi"
+#include "k3-am62x-rs10-common.dtsi"
 
 / {
 	compatible =  "ti,am625-sk", "ti,am625";

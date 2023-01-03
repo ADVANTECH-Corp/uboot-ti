@@ -8,25 +8,53 @@ choice
 	optional
 
 config TARGET_AM62x_A53_RS10
-	bool "TI K3 based AM625 RS10 running on A53"
+	bool "TI K3 based AM62x RS10 running on A53"
 	select ARM64
 	select SOC_K3_AM625
 	imply BOARD
 	imply SPL_BOARD
-	imply TI_I2C_BOARD_DETECT
+
+config TARGET_AM62x_R5_RS10
+	bool "TI K3 based AM62x RS10 running on R5"
+	select CPU_V7R
+	select SYS_THUMB_BUILD
+	select K3_LOAD_SYSFW
+	select SOC_K3_AM625
+	select RAM
+	select SPL_RAM
+	select K3_DDRSS
+	imply SYS_K3_SPL_ATF
 
 endchoice
 
 if TARGET_AM62x_A53_RS10
 
 config SYS_BOARD
-       default "am62x"
+       default "am62x_adv"
 
 config SYS_VENDOR
        default "ti"
 
 config SYS_CONFIG_NAME
        default "am62x_rs10"
+
+source "board/ti/common/Kconfig"
+
+endif
+
+if TARGET_AM62x_R5_RS10
+
+config SYS_BOARD
+       default "am62x_adv"
+
+config SYS_VENDOR
+       default "ti"
+
+config SYS_CONFIG_NAME
+       default "am62x_rs10"
+
+config SPL_LDSCRIPT
+	default "arch/arm/mach-omap2/u-boot-spl.lds"
 
 source "board/ti/common/Kconfig"
 

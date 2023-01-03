@@ -6,8 +6,8 @@
  *	Suman Anna <s-anna@ti.com>
  */
 
-#ifndef __CONFIG_AM625_EVM_H
-#define __CONFIG_AM625_EVM_H
+#ifndef __CONFIG_AM62x_RS10_H
+#define __CONFIG_AM62x_RS10_H
 
 #include <linux/sizes.h>
 #include <config_distro_bootcmd.h>
@@ -151,8 +151,8 @@
  */
 #define PREPARE_FDT \
 	"echo Preparing FDT...; " \
-	"if test $board_name = am62x_skevm; then " \
-		"echo \"  Reading DTB for am62x_skevm...\"; " \
+	"if test $board_name = am62x_rs10; then " \
+		"echo \"  Reading DTB for am62x_rs10...\"; " \
 		"setenv dtb_index 0;" \
 	"else " \
 		"echo Error: Android boot is not supported for $board_name; " \
@@ -390,4 +390,4 @@
 #endif
 #define CONFIG_SYS_MALLOC_LEN           SZ_128M
 
-#endif /* __CONFIG_AM625_EVM_H */
+#endif /* __CONFIG_AM62x_RS10_H */
