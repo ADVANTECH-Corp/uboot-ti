@@ -80,6 +80,10 @@
 	u-boot,dm-spl;
 };
 
+&main_uart1_pins_default {
+	u-boot,dm-spl;
+};
+
 &cbass_mcu {
 	u-boot,dm-spl;
 };
@@ -89,6 +93,14 @@
 };
 
 &mcu_pmx0 {
+	u-boot,dm-spl;
+};
+
+&mcu_uart0 {
+	u-boot,dm-spl;
+};
+
+&mcu_uart0_pins_default {
 	u-boot,dm-spl;
 };
 
@@ -121,9 +133,10 @@
 };
 
 &usb0 {
-	dr_mode = "peripheral";
-	/* Since role switching is not supported in U-Boot */
-	/delete-property/ extcon;
+	u-boot,dm-spl;
+};
+
+&main_usb0_pins_default {
 	u-boot,dm-spl;
 };
 
@@ -169,15 +182,15 @@
 	u-boot,dm-spl;
 };
 
-&ospi0_pins_default {
-	u-boot,dm-spl;
-};
-
 &cpsw_port1 {
 	u-boot,dm-spl;
 };
 
 &main_rgmii1_pins_default {
+	u-boot,dm-spl;
+};
+
+&main_rgmii2_pins_default {
 	u-boot,dm-spl;
 };
 

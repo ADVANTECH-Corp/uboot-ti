@@ -14,22 +14,6 @@
 	u-boot,dm-spl;
 };
 
-&ospi0 {
-	u-boot,dm-spl;
-
-	flash@0 {
-		u-boot,dm-spl;
-
-		partitions {
-			u-boot,dm-spl;
-
-			partition@3fc0000 {
-				u-boot,dm-spl;
-			};
-		};
-	};
-};
-
 &main_gpio0 {
 	u-boot,dm-spl;
 };
@@ -39,10 +23,6 @@
 };
 
 &main_i2c1_pins_default {
-	u-boot,dm-spl;
-};
-
-&exp1 {
 	u-boot,dm-spl;
 };
 

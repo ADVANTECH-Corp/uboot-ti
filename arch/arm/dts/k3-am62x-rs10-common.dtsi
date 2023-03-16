@@ -17,7 +17,6 @@
 		serial2 = &main_uart0;
 		mmc0 = &sdhci0;
 		mmc1 = &sdhci1;
-		mmc2 = &sdhci2;
 		usb0 = &usb0;
 		usb1 = &usb1;
 		spi0 = &ospi0;
@@ -113,7 +112,9 @@
 		regulator-boot-on;
 		enable-active-high;
 		vin-supply = <&vcc_3v3_sys>;
-		gpio = <&exp1 3 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&vdd_mmc_pins_default>;
+		gpio = <&main_gpio0 32 GPIO_ACTIVE_HIGH>;
 	};
 
 	vdd_sd_dv: gpio-regulator-TLV71033 {
@@ -144,13 +145,6 @@
 			default-state = "off";
 		};
 	};
-
-	extcon_usb0: extcon-usb0 {
-		compatible = "linux,extcon-usb-gpio";
-		id-gpios = <&main_gpio1 50 GPIO_ACTIVE_HIGH>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&extcon_usb0_gpio_id_pins_default>;
-	};
 };
 
 &main_pmx0 {
@@ -158,6 +152,15 @@
 		pinctrl-single,pins = <
 			AM62X_IOPAD(0x1c8, PIN_INPUT, 0) /* (D14) UART0_RXD */
 			AM62X_IOPAD(0x1cc, PIN_OUTPUT, 0) /* (E14) UART0_TXD */
+		>;
+	};
+	
+	main_uart1_pins_default: main-uart1-pins-default {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x01ac, PIN_INPUT, 2) /* (E19) MCASP0_AFSR.UART1_RXD */
+			AM62X_IOPAD(0x01b0, PIN_OUTPUT, 2) /* (A20) MCASP0_ACLKR.UART1_TXD */
+			AM62X_IOPAD(0x0194, PIN_INPUT, 2) /* (B19) MCASP0_AXR3.UART1_CTSn */
+			AM62X_IOPAD(0x0198, PIN_OUTPUT, 2) /* (A19) MCASP0_AXR2.UART1_RTSn */
 		>;
 	};
 
@@ -172,13 +175,6 @@
 		pinctrl-single,pins = <
 			AM62X_IOPAD(0x1e8, PIN_INPUT_PULLUP, 0) /* (B17) I2C1_SCL */
 			AM62X_IOPAD(0x1ec, PIN_INPUT_PULLUP, 0) /* (A17) I2C1_SDA */
-		>;
-	};
-
-	main_i2c2_pins_default: main-i2c2-pins-default {
-		pinctrl-single,pins = <
-			AM62X_IOPAD(0x0b0, PIN_INPUT_PULLUP, 1) /* (K22) GPMC0_CSn2.I2C2_SCL */
-			AM62X_IOPAD(0x0b4, PIN_INPUT_PULLUP, 1) /* (K24) GPMC0_CSn3.I2C2_SDA */
 		>;
 	};
 
@@ -256,15 +252,15 @@
 		>;
 	};
 
-	vdd_sd_dv_pins_default: vdd-sd-dv-pins-default {
+	vdd_mmc_pins_default: vdd-mmc-pins-default {
 		pinctrl-single,pins = <
-			AM62X_IOPAD(0x07c, PIN_OUTPUT, 7) /* (P25) GPMC0_CLK.GPIO0_31 */
+				AM62X_IOPAD(0x084, PIN_OUTPUT, 7) /* (L23) GPMC0_ADVn_ALE.GPIO0_32 */
 		>;
 	};
 
-	extcon_usb0_gpio_id_pins_default: extcon-usb0-gpio-id-pins-default {
+	vdd_sd_dv_pins_default: vdd-sd-dv-pins-default {
 		pinctrl-single,pins = <
-			AM62X_IOPAD(0x254, PIN_INPUT_PULLUP, 7) /* (C20) USB0_DRVVBUS.GPIO1_50 */
+			AM62X_IOPAD(0x07c, PIN_OUTPUT, 7) /* (P25) GPMC0_CLK.GPIO0_31 */
 		>;
 	};
 
@@ -274,19 +270,20 @@
 		>;
 	};
 
-	ospi0_pins_default: ospi0-pins-default {
+	main_usb0_pins_default: main-usb0-pins-default {
 		pinctrl-single,pins = <
-			AM62X_IOPAD(0x000, PIN_OUTPUT, 0) /* (H24) OSPI0_CLK */
-			AM62X_IOPAD(0x02c, PIN_OUTPUT, 0) /* (F23) OSPI0_CSn0 */
-			AM62X_IOPAD(0x00c, PIN_INPUT, 0) /* (E25) OSPI0_D0 */
-			AM62X_IOPAD(0x010, PIN_INPUT, 0) /* (G24) OSPI0_D1 */
-			AM62X_IOPAD(0x014, PIN_INPUT, 0) /* (F25) OSPI0_D2 */
-			AM62X_IOPAD(0x018, PIN_INPUT, 0) /* (F24) OSPI0_D3 */
-			AM62X_IOPAD(0x01c, PIN_INPUT, 0) /* (J23) OSPI0_D4 */
-			AM62X_IOPAD(0x020, PIN_INPUT, 0) /* (J25) OSPI0_D5 */
-			AM62X_IOPAD(0x024, PIN_INPUT, 0) /* (H25) OSPI0_D6 */
-			AM62X_IOPAD(0x028, PIN_INPUT, 0) /* (J22) OSPI0_D7 */
-			AM62X_IOPAD(0x008, PIN_INPUT, 0) /* (J24) OSPI0_DQS */
+			AM62X_IOPAD(0x0254, PIN_OUTPUT, 0) /* (C20) USB0_DRVVBUS */
+		>;
+	};
+};
+
+&mcu_pmx0 {
+	mcu_uart0_pins_default: mcu-uart0-pins-default {
+		pinctrl-single,pins = <
+			AM62X_MCU_IOPAD(0x001c, PIN_INPUT, 0) /* (A6) MCU_UART0_CTSn */
+			AM62X_MCU_IOPAD(0x0020, PIN_OUTPUT, 0) /* (B6) MCU_UART0_RTSn */
+			AM62X_MCU_IOPAD(0x0014, PIN_INPUT, 0) /* (B5) MCU_UART0_RXD */
+			AM62X_MCU_IOPAD(0x0018, PIN_OUTPUT, 0) /* (A5) MCU_UART0_TXD */
 		>;
 	};
 };
@@ -297,7 +294,8 @@
 };
 
 &mcu_uart0 {
-	status = "disabled";
+	pinctrl-names = "default";
+	pinctrl-0 = <&mcu_uart0_pins_default>;
 };
 
 &main_uart0 {
@@ -306,8 +304,8 @@
 };
 
 &main_uart1 {
-	/* Main UART1 is used by TIFS firmware */
-	status = "reserved";
+	pinctrl-names = "default";
+	pinctrl-0 = <&main_uart1_pins_default>;
 };
 
 &main_uart2 {
@@ -348,29 +346,10 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&main_i2c1_pins_default>;
 	clock-frequency = <400000>;
-
-	exp1: gpio@22 {
-		compatible = "ti,tca6424";
-		reg = <0x22>;
-		gpio-controller;
-		#gpio-cells = <2>;
-		gpio-line-names = "GPIO_CPSW2_RST", "GPIO_CPSW1_RST",
-				   "PRU_DETECT", "MMC1_SD_EN",
-				   "VPP_LDO_EN", "EXP_PS_3V3_En",
-				   "EXP_PS_5V0_En", "EXP_HAT_DETECT",
-				   "GPIO_AUD_RSTn", "GPIO_eMMC_RSTn",
-				   "UART1_FET_BUF_EN", "WL_LT_EN",
-				   "GPIO_HDMI_RSTn", "CSI_GPIO1",
-				   "CSI_GPIO2", "PRU_3V3_EN",
-				   "HDMI_INTn", "TEST_GPIO2",
-				   "MCASP1_FET_EN", "MCASP1_BUF_BT_EN",
-				   "MCASP1_FET_SEL", "UART1_FET_SEL",
-				   "TSINT#", "IO_EXP_TEST_LED";
-	};
 };
 
 &main_i2c2 {
-	status = "disabled";
+   status = "disabled";
 };
 
 &main_i2c3 {
@@ -394,12 +373,22 @@
 	disable-wp;
 };
 
+&sdhci2 {
+	status = "disabled";
+};
+
 &usbss0 {
 	ti,vbus-divider;
 };
 
+&usbss1 {
+	ti,vbus-divider;
+};
+
 &usb0 {
-	extcon = <&extcon_usb0>;
+	dr_mode = "host";
+	pinctrl-names = "default";
+	pinctrl-0 = <&main_usb0_pins_default>;
 };
 
 &usb1 {
@@ -420,6 +409,11 @@
 	phy-handle = <&cpsw3g_phy0>;
 };
 
+&cpsw_port2 {
+	phy-mode = "rgmii-rxid";
+	phy-handle = <&cpsw3g_phy1>;
+};
+
 &cpsw3g_mdio {
 	cpsw3g_phy0: ethernet-phy@0 {
 		reg = <0>;
@@ -437,6 +431,5 @@
 };
 
 &ospi0 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&ospi0_pins_default>;
+	status = "disabled";
 };
