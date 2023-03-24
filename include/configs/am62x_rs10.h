@@ -544,4 +544,6 @@
 #endif
 #define CONFIG_SYS_MALLOC_LEN           SZ_128M
 
+#define ADV_WDT_EN 34
+
 #endif /* __CONFIG_AM62x_RS10_H */

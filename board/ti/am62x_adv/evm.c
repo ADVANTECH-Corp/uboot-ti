@@ -349,6 +349,7 @@ static int probe_daughtercards(void)
 #ifdef CONFIG_BOARD_LATE_INIT
 int board_late_init(void)
 {
+int ret;
 	if (IS_ENABLED(CONFIG_TI_I2C_BOARD_DETECT)) {
 		struct ti_am6_eeprom *ep = TI_AM6_EEPROM_DATA;
 
@@ -368,6 +369,12 @@ int board_late_init(void)
 			probe_daughtercards();
 #endif
 	}
+
+    /* Disable watchdog EN pin to ensure watchdog don't send rst */
+    gpio_request(ADV_WDT_EN, "ADV_WDT_EN");
+    gpio_direction_output(ADV_WDT_EN, 0);
+	gpio_set_value(ADV_WDT_EN, 0);
+    gpio_free(ADV_WDT_EN);
 
 	return 0;
 }
