@@ -370,11 +370,17 @@ int ret;
 #endif
 	}
 
-    /* Disable watchdog EN pin to ensure watchdog don't send rst */
-    gpio_request(ADV_WDT_EN, "ADV_WDT_EN");
-    gpio_direction_output(ADV_WDT_EN, 0);
-	gpio_set_value(ADV_WDT_EN, 0);
-    gpio_free(ADV_WDT_EN);
+        /* Disable watchdog EN pin to ensure watchdog don't send rst */
+        gpio_request(ADV_WDT_EN, "ADV_WDT_EN");
+        gpio_direction_output(ADV_WDT_EN, 0);
+        gpio_set_value(ADV_WDT_EN, 0);
+        gpio_free(ADV_WDT_EN);
+
+        /* Enable Power Led */
+        gpio_request(POWER_LED, "POWER_LED");
+        gpio_direction_output(POWER_LED, 1);
+        gpio_set_value(POWER_LED, 1);
+        gpio_free(POWER_LED);
 
 	return 0;
 }

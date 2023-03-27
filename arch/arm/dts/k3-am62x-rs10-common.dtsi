@@ -209,6 +209,7 @@
 		pinctrl-single,pins = <
 			AM62X_IOPAD(0x244, PIN_OUTPUT, 7) /* (C17) MMC1_SDWP.GPIO1_49 */
 			AM62X_IOPAD(0x08c, PIN_OUTPUT, 7) /* (L25) GPMC0_WEn.GPIO0_34 */
+                        AM62X_IOPAD(0x0ac, PIN_OUTPUT, 7) /* (L21) GPMC0_CSn1.GPIO0_42 */
 		>;
 	};
 
