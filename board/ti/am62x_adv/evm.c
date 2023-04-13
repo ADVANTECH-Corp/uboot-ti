@@ -370,6 +370,14 @@ int ret;
 #endif
 	}
 
+        char cmd[32];
+        char part[32];
+        u32 dev_no = mmc_get_env_dev();
+        env_set_ulong("mmcdev", dev_no);
+        /* Set bootpart env */
+        sprintf(part, "%d:2",  dev_no);
+        env_set("bootpart", part);
+
         /* Disable watchdog EN pin to ensure watchdog don't send rst */
         gpio_request(ADV_WDT_EN, "ADV_WDT_EN");
         gpio_direction_output(ADV_WDT_EN, 0);
