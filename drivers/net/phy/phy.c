@@ -433,6 +433,91 @@ int genphy_config(struct phy_device *phydev)
 	return 0;
 }
 
+int yt8531_config(struct phy_device *phydev)
+{
+	int val;
+	u32 features;
+
+	features = (SUPPORTED_TP | SUPPORTED_MII
+			| SUPPORTED_AUI | SUPPORTED_FIBRE |
+			SUPPORTED_BNC);
+
+	/* Do we support autonegotiation? */
+	val = phy_read(phydev, MDIO_DEVAD_NONE, MII_BMSR);
+
+	if (val < 0)
+		return val;
+
+	if (val & BMSR_ANEGCAPABLE)
+		features |= SUPPORTED_Autoneg;
+
+	if (val & BMSR_100FULL)
+		features |= SUPPORTED_100baseT_Full;
+	if (val & BMSR_100HALF)
+		features |= SUPPORTED_100baseT_Half;
+	if (val & BMSR_10FULL)
+		features |= SUPPORTED_10baseT_Full;
+	if (val & BMSR_10HALF)
+		features |= SUPPORTED_10baseT_Half;
+
+	if (val & BMSR_ESTATEN) {
+		val = phy_read(phydev, MDIO_DEVAD_NONE, MII_ESTATUS);
+
+		if (val < 0)
+			return val;
+
+		if (val & ESTATUS_1000_TFULL)
+			features |= SUPPORTED_1000baseT_Full;
+		if (val & ESTATUS_1000_THALF)
+			features |= SUPPORTED_1000baseT_Half;
+		if (val & ESTATUS_1000_XFULL)
+			features |= SUPPORTED_1000baseX_Full;
+		if (val & ESTATUS_1000_XHALF)
+			features |= SUPPORTED_1000baseX_Half;
+	}
+
+	phydev->supported &= features;
+	phydev->advertising &= features;
+
+         /* disable auto sleep */
+	phy_write(phydev, MDIO_DEVAD_NONE,REG_DEBUG_ADDR_OFFSET, 0x27);
+	val = phy_read(phydev, MDIO_DEVAD_NONE,REG_DEBUG_DATA);
+	if (val > 0) {
+	    val &= ~(0x1 << 15);
+	    phy_write(phydev, MDIO_DEVAD_NONE,REG_DEBUG_DATA, val);
+	}
+
+	/* enable RXC clock when no wire plug */
+
+         /* config LED0 as ACT blinking */
+	phy_write(phydev, MDIO_DEVAD_NONE,REG_DEBUG_ADDR_OFFSET, 0xa000);
+	phy_write(phydev, MDIO_DEVAD_NONE,REG_DEBUG_DATA, 0);
+	phy_write(phydev, MDIO_DEVAD_NONE,REG_DEBUG_ADDR_OFFSET, 0xa00c);
+	phy_write(phydev, MDIO_DEVAD_NONE,REG_DEBUG_DATA, 0xe600);
+
+	/* config LED1 as ACT blinking */
+	phy_write(phydev, MDIO_DEVAD_NONE,REG_DEBUG_ADDR_OFFSET, 0xa000);
+	phy_write(phydev, MDIO_DEVAD_NONE,REG_DEBUG_DATA, 0);
+	phy_write(phydev, MDIO_DEVAD_NONE,REG_DEBUG_ADDR_OFFSET, 0xa00d);
+	phy_write(phydev, MDIO_DEVAD_NONE,REG_DEBUG_DATA, 0xc020);
+
+	/* config LED2 as ACT blinking */
+	phy_write(phydev, MDIO_DEVAD_NONE,REG_DEBUG_ADDR_OFFSET, 0xa000);
+	phy_write(phydev, MDIO_DEVAD_NONE,REG_DEBUG_DATA, 0);
+	phy_write(phydev, MDIO_DEVAD_NONE,REG_DEBUG_ADDR_OFFSET, 0xa00e);
+	phy_write(phydev, MDIO_DEVAD_NONE,REG_DEBUG_DATA, 0xc040);
+
+	/* 100 Base-T_Eye_Pattern,UTP+/-Vout ---SI issue*/
+	phy_write(phydev, MDIO_DEVAD_NONE,REG_DEBUG_ADDR_OFFSET, 0xa000);
+	phy_write(phydev, MDIO_DEVAD_NONE,REG_DEBUG_DATA, 0);
+	phy_write(phydev, MDIO_DEVAD_NONE,REG_DEBUG_ADDR_OFFSET, 0x57);
+	phy_write(phydev, MDIO_DEVAD_NONE,REG_DEBUG_DATA, 0x254c);
+
+	genphy_config_aneg(phydev);
+
+	return 0;
+}
+
 int genphy_startup(struct phy_device *phydev)
 {
 	int ret;
@@ -461,8 +546,21 @@ static struct phy_driver genphy_driver = {
 	.shutdown	= genphy_shutdown,
 };
 
+static struct phy_driver yt8531_driver = {
+	.uid		= PHY_ID_YT8531S,
+	.mask		= MOTORCOMM_PHY_ID_MASK,
+	.name		= "YT8531 PHY",
+	.features	= PHY_GBIT_FEATURES | SUPPORTED_MII |
+			  SUPPORTED_AUI | SUPPORTED_FIBRE |
+			  SUPPORTED_BNC,
+	.config		= yt8531_config,
+	.startup	= genphy_startup,
+	.shutdown	= genphy_shutdown,
+};
+
 int genphy_init(void)
 {
+    phy_register(&yt8531_driver);
 	return phy_register(&genphy_driver);
 }
 

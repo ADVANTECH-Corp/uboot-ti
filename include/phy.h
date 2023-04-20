@@ -24,6 +24,12 @@ struct udevice;
 #define PHY_FIXED_ID		0xa5a55a5a
 #define PHY_NCSI_ID            0xbeefcafe
 
+#define MOTORCOMM_PHY_ID_MASK	0x00000fff
+#define PHY_ID_YT8531S		0x4f51e91a
+#define REG_PHY_SPEC_STATUS		0x11
+#define REG_DEBUG_ADDR_OFFSET		0x1e
+#define REG_DEBUG_DATA			0x1f
+
 /*
  * There is no actual id for this.
  * This is just a dummy id for gmii2rgmmi converter.

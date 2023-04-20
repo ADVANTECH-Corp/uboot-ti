@@ -370,6 +370,17 @@ u32 cpsw_mdio_get_alive(struct mii_dev *bus)
 	return val & GENMASK(15, 0);
 }
 
+static int cpsw_mdio_reset(struct mii_dev *bus)
+{
+#ifdef PHY_RESET_GPIO
+	gpio_request(PHY_RESET_GPIO, "phy_reset_gpio");
+	gpio_direction_output(PHY_RESET_GPIO, 1);
+	gpio_free(PHY_RESET_GPIO);
+	mdelay(75);
+#endif
+	return 0;
+}
+
 struct mii_dev *cpsw_mdio_init(const char *name, phys_addr_t mdio_base,
 			       u32 bus_freq, int fck_freq, bool manual_mode)
 {
@@ -420,6 +431,7 @@ struct mii_dev *cpsw_mdio_init(const char *name, phys_addr_t mdio_base,
 		cpsw_mdio->bus->read = cpsw_mdio_read;
 		cpsw_mdio->bus->write = cpsw_mdio_write;
 	}
+	cpsw_mdio->bus->reset = cpsw_mdio_reset;
 
 	cpsw_mdio->bus->priv = cpsw_mdio;
 	snprintf(cpsw_mdio->bus->name, sizeof(cpsw_mdio->bus->name), name);
