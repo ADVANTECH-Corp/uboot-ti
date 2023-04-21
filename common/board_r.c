@@ -76,6 +76,19 @@
 #ifdef CONFIG_EFI_SETUP_EARLY
 #include <efi_loader.h>
 #endif
+#include <version.h>
+#include <spi_flash.h>
+
+#define CONFIG_SPI_ENV_OFFSET	(768 * 1024)
+#define CONFIG_SPI_ENV_SIZE	(8 * 1024)
+
+struct boardcfg_t {
+    unsigned char mac[6];
+    unsigned char sn[10];
+    unsigned char Manufacturing_Time[14];
+};
+
+static struct spi_flash *flash;
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -580,6 +593,76 @@ static int initr_ethaddr(void)
 
 	return 0;
 }
+
+static int board_info_config(void)
+{
+	unsigned char buf[512];
+	u32 valid;
+	int sn_len,time_len,info_len;
+
+	if(spi_flash_read(flash, CONFIG_SPI_ENV_OFFSET + 8*CONFIG_SPI_ENV_SIZE, sizeof(buf), buf)==0)
+	{
+		valid = is_valid_ethaddr(buf);
+		if (valid)
+			eth_env_set_enetaddr("ethaddr", buf);
+		else {
+			puts("Skipped eth0addr assignment due to invalid,using default!\n");
+			goto out;
+		}
+
+#ifdef CONFIG_HAS_ETH1
+		valid = is_valid_ethaddr(&buf[6]);
+		if (valid)
+			eth_env_set_enetaddr("eth1addr", &buf[6]);
+		else
+			puts("Skipped eth1addr assignment due to invalid,using default!\n");
+#endif
+
+		sn_len = buf[12];
+		time_len = buf[13+sn_len];
+		info_len = buf[14+sn_len+time_len];
+		if(sn_len && (sn_len <= 20)) {
+			buf[13+sn_len] = '\0';
+			env_set("adv.boardsn", (const char *)(buf+13));
+			if(time_len && (time_len == 8)) {
+				buf[14+sn_len+time_len] = '\0';
+				env_set("adv.factorytime", (const char *)(buf+14+sn_len));
+				if(info_len && (info_len <= 0x40)) {
+					buf[15+sn_len+time_len+info_len] = '\0';
+					env_set("adv.hwversion", (const char *)(buf+15+sn_len+time_len));
+				}else
+				env_set("adv.hwversion", NULL);
+			}else {
+				env_set("adv.factorytime", NULL);
+				env_set("adv.hwversion", NULL);
+			}
+		} else {
+			env_set("adv.boardsn", NULL);
+			env_set("adv.factorytime", NULL);
+			env_set("adv.hwversion", NULL);
+		}
+	}else {
+		printf("SPI Read fail!!\n");
+		return 0;
+	}
+
+out:
+	return 0;
+}
+
+int boardcfg_get_mac(void)
+{
+	int rc = 0;
+	flash = spi_flash_probe(CONFIG_SF_DEFAULT_BUS, CONFIG_SF_DEFAULT_CS,
+				CONFIG_SF_DEFAULT_SPEED, CONFIG_SF_DEFAULT_MODE);
+	if (!flash)
+		return -1;
+
+	rc = board_info_config();
+
+	return rc;
+}
+
 #endif /* CONFIG_CMD_NET */
 
 #ifdef CONFIG_CMD_KGDB
@@ -589,6 +672,7 @@ static int initr_kgdb(void)
 	kgdb_init();
 	return 0;
 }
+
 #endif
 
 #if defined(CONFIG_LED_STATUS)
@@ -849,6 +933,7 @@ static init_fnc_t init_sequence_r[] = {
 	/* PPC has a udelay(20) here dating from 2002. Why? */
 #ifdef CONFIG_CMD_NET
 	initr_ethaddr,
+	boardcfg_get_mac,
 #endif
 #if defined(CONFIG_GPIO_HOG)
 	gpio_hog_probe_all,

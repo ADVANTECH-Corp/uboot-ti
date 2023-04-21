@@ -26,6 +26,14 @@
 	u-boot,dm-spl;
 };
 
+&main_spi0 {
+	u-boot,dm-spl;
+};
+
+&main_spi0_pins_default {
+	u-boot,dm-spl;
+};
+
 &vmain_pd {
 	u-boot,dm-spl;
 };

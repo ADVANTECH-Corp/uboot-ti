@@ -140,6 +140,7 @@ const struct flash_info spi_nor_ids[] = {
 #endif
 #ifdef CONFIG_SPI_FLASH_MACRONIX	/* MACRONIX */
 	/* Macronix */
+	{ INFO("mx25l512e",  0xc22010, 0, 64 * 1024,   1, SECT_4K) },
 	{ INFO("mx25l2005a",  0xc22012, 0, 64 * 1024,   4, SECT_4K) },
 	{ INFO("mx25l4005a",  0xc22013, 0, 64 * 1024,   8, SECT_4K) },
 	{ INFO("mx25l8005",   0xc22014, 0, 64 * 1024,  16, 0) },

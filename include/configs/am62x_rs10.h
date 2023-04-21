@@ -543,6 +543,7 @@
 #endif
 #define CONFIG_SYS_MALLOC_LEN           SZ_128M
 
+#define CONFIG_HAS_ETH1
 #define ADV_WDT_EN 34
 #define POWER_LED 42
 #define PHY_RESET_GPIO	39
