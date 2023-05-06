@@ -545,7 +545,5 @@
 
 #define CONFIG_HAS_ETH1
 #define ADV_WDT_EN 34
-#define POWER_LED 42
-#define PHY_RESET_GPIO	39
 
 #endif /* __CONFIG_AM62x_RS10_H */

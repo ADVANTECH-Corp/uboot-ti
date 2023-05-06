@@ -114,7 +114,7 @@
 		vin-supply = <&vcc_3v3_sys>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&vdd_mmc_pins_default>;
-		gpio = <&main_gpio0 32 GPIO_ACTIVE_HIGH>;
+		gpios = <&main_gpio0 32 GPIO_ACTIVE_HIGH>;
 	};
 
 	vdd_sd_dv: gpio-regulator-TLV71033 {
@@ -218,10 +218,18 @@
 		pinctrl-single,pins = <
 			AM62X_IOPAD(0x244, PIN_OUTPUT, 7) /* (C17) MMC1_SDWP.GPIO1_49 */
 			AM62X_IOPAD(0x08c, PIN_OUTPUT, 7) /* (L25) GPMC0_WEn.GPIO0_34 */
-                        AM62X_IOPAD(0x0ac, PIN_OUTPUT, 7) /* (L21) GPMC0_CSn1.GPIO0_42 */
-                        AM62X_IOPAD(0x0a0, PIN_OUTPUT, 7) /* (K25) GPMC0_WPn.GPIO0_39 */
+            AM62X_IOPAD(0x0ac, PIN_OUTPUT, 7) /* (L21) GPMC0_CSn1.GPIO0_42 */
+            AM62X_IOPAD(0x0b0, PIN_OUTPUT, 7) /* (K22) GPMC0_CSn2.GPIO0_43 */
+			AM62X_IOPAD(0x0b4, PIN_OUTPUT, 7) /* (K24) GPMC0_CSn3.GPIO0_44 */
 		>;
 	};
+
+	phy_reset_pins_default: phy-reset-pins-default {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x0a0, PIN_OUTPUT, 7) /* (K25) GPMC0_WPn.GPIO0_39 */
+		>;
+	};
+
 
 	main_mdio1_pins_default: main-mdio1-pins-default {
 		pinctrl-single,pins = <
@@ -298,6 +306,12 @@
 			AM62X_MCU_IOPAD(0x0018, PIN_OUTPUT, 0) /* (A5) MCU_UART0_TXD */
 		>;
 	};
+};
+
+&main_gpio0 {
+   pinctrl-names = "default";
+   pinctrl-0 = <&usr_led_pins_default &phy_reset_pins_default>;
+   status = "okay";
 };
 
 &wkup_uart0 {
@@ -432,11 +446,12 @@
 	pinctrl-0 = <&main_mdio1_pins_default
 		     &main_rgmii1_pins_default
 		     &main_rgmii2_pins_default>;
+	phy-reset-gpio = <&main_gpio0 39 GPIO_ACTIVE_HIGH>;
 };
 
 &cpsw_port1 {
 	phy-mode = "rgmii-rxid";
-	phy-handle = <&cpsw3g_phy0>;
+	phy-handle = <&cpsw3g_phy2>;
 };
 
 &cpsw_port2 {
@@ -445,11 +460,14 @@
 };
 
 &cpsw3g_mdio {
-	cpsw3g_phy0: ethernet-phy@0 {
-		reg = <0>;
-		ti,rx-internal-delay = <DP83867_RGMIIDCTL_2_00_NS>;
-		ti,fifo-depth = <DP83867_PHYCR_FIFO_DEPTH_4_B_NIB>;
-		ti,min-output-impedance;
+	pinctrl-names = "default";
+	pinctrl-0 = <&phy_reset_pins_default>;
+	cpsw3g_phy2: ethernet-phy@2 {
+		reg = <2>;
+	};
+
+	cpsw3g_phy1: ethernet-phy@1 {
+		reg = <1>;
 	};
 };
 

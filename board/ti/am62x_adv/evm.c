@@ -384,12 +384,6 @@ int ret;
         gpio_set_value(ADV_WDT_EN, 0);
         gpio_free(ADV_WDT_EN);
 
-        /* Enable Power Led */
-        gpio_request(POWER_LED, "POWER_LED");
-        gpio_direction_output(POWER_LED, 1);
-        gpio_set_value(POWER_LED, 1);
-        gpio_free(POWER_LED);
-
 	return 0;
 }
 #endif

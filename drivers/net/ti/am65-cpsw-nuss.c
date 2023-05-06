@@ -24,6 +24,8 @@
 #include <soc.h>
 #include <linux/bitops.h>
 #include <linux/soc/ti/ti-udma.h>
+#include <asm/gpio.h>
+#include <linux/delay.h>
 
 #include "cpsw_mdio.h"
 
@@ -810,6 +812,20 @@ static int am65_cpsw_probe_nuss(struct udevice *dev)
 		 readl(cpsw_common->ale_base),
 		 cpsw_common->port_num,
 		 cpsw_common->bus_freq);
+
+        /*Hardware Reset the PHY*/
+	struct gpio_desc desc;
+	int err;
+        err = gpio_request_by_name(dev, "phy-reset-gpio", 0, &desc, GPIOD_IS_OUT);
+        if (!err)  {
+            dm_gpio_set_dir_flags(&desc, GPIOD_IS_OUT);
+            dm_gpio_set_value(&desc, 1);
+            mdelay(50);
+            dm_gpio_set_value(&desc, 0);
+            mdelay(50);
+            dm_gpio_set_value(&desc, 1);
+            mdelay(75);
+	}
 
 out:
 	clk_free(&cpsw_common->fclk);

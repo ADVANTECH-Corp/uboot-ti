@@ -166,8 +166,12 @@
 	};
 };
 
+&cpsw_port1 {
+	u-boot,dm-spl;
+};
+
 &cpsw_port2 {
-	status = "disabled";
+       u-boot,dm-spl;
 };
 
 &main_bcdma {
@@ -182,7 +186,11 @@
 	u-boot,dm-spl;
 };
 
-&cpsw_port1 {
+&usr_led_pins_default {
+	u-boot,dm-spl;
+};
+
+&phy_reset_pins_default {
 	u-boot,dm-spl;
 };
 
@@ -198,7 +206,11 @@
 	u-boot,dm-spl;
 };
 
-&cpsw3g_phy0 {
+&cpsw3g_phy1 {
+	u-boot,dm-spl;
+};
+
+&cpsw3g_phy2 {
 	u-boot,dm-spl;
 };
 

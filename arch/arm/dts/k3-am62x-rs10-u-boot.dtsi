@@ -6,14 +6,6 @@
 
 #include "k3-am62x-rs10-common-u-boot.dtsi"
 
-&main_rgmii2_pins_default {
-	u-boot,dm-spl;
-};
-
-&cpsw3g_phy1 {
-	u-boot,dm-spl;
-};
-
 &main_gpio0 {
 	u-boot,dm-spl;
 };
