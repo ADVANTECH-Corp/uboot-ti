@@ -204,7 +204,6 @@ static int rtl8201f_config(struct phy_device *phydev)
 static int rtl8211f_config(struct phy_device *phydev)
 {
 	u16 reg;
-
 	if (phydev->flags & PHY_RTL8211F_FORCE_EEE_RXC_ON) {
 		unsigned int reg;
 
@@ -242,12 +241,36 @@ static int rtl8211f_config(struct phy_device *phydev)
 		  MIIM_RTL8211F_PAGE_SELECT, 0x0);
 
 	/* Set green LED for Link, yellow LED for Active */
-	phy_write(phydev, MDIO_DEVAD_NONE,
+/*	phy_write(phydev, MDIO_DEVAD_NONE,
 		  MIIM_RTL8211F_PAGE_SELECT, 0xd04);
 	phy_write(phydev, MDIO_DEVAD_NONE, 0x10, 0x617f);
 	phy_write(phydev, MDIO_DEVAD_NONE,
 		  MIIM_RTL8211F_PAGE_SELECT, 0x0);
+*/
+		phy_write(phydev, MDIO_DEVAD_NONE,
+		  MIIM_RTL8211F_PAGE_SELECT, 0xd04);
+	phy_write(phydev, MDIO_DEVAD_NONE, 0x10, 0xa050);
+	phy_write(phydev, MDIO_DEVAD_NONE, 0x11, 0x0);
+	phy_write(phydev, MDIO_DEVAD_NONE,
+		  MIIM_RTL8211F_PAGE_SELECT, 0x0);
 
+	// Enable rxc ssc
+                phy_write(phydev, MDIO_DEVAD_NONE, 0x1f, 0x0c44);
+                phy_write(phydev, MDIO_DEVAD_NONE, 0x13, 0x5f00);
+                phy_write(phydev, MDIO_DEVAD_NONE, 0x1f, 0x0000);
+                phy_write(phydev, MDIO_DEVAD_NONE, 0x00, 0x9200);
+
+                // Enable system clk ssc
+                phy_write(phydev, MDIO_DEVAD_NONE, 0x1f, 0x0c44);
+                phy_write(phydev, MDIO_DEVAD_NONE, 0x17, 0x4f00);
+                phy_write(phydev, MDIO_DEVAD_NONE, 0x1f, 0x0000);
+                phy_write(phydev, MDIO_DEVAD_NONE, 0x00, 0x9200);
+
+                // clk_out disable
+                phy_write(phydev, MDIO_DEVAD_NONE, 0x1f, 0x0a43);
+                phy_write(phydev, MDIO_DEVAD_NONE, 0x19, 0x0862);
+                phy_write(phydev, MDIO_DEVAD_NONE, 0x1f, 0x0000);
+      		phy_write(phydev, MDIO_DEVAD_NONE, 0x00, 0x9200);
 	genphy_config_aneg(phydev);
 
 	return 0;

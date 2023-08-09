@@ -813,8 +813,9 @@ int __weak get_phy_id(struct mii_dev *bus, int addr, int devad, u32 *phy_id)
 	 * Grab the bits from PHYIR1, and put them
 	 * in the upper half
 	 */
+	mdelay(75);
 	phy_reg = bus->read(bus, addr, devad, MII_PHYSID1);
-
+	phy_reg = bus->read(bus, addr, devad, MII_PHYSID1);
 	if (phy_reg < 0)
 		return -EIO;
 
@@ -1012,7 +1013,7 @@ struct phy_device *phy_find_by_mask(struct mii_dev *bus, uint phy_mask,
 		bus->reset(bus);
 
 		/* Wait 15ms to make sure the PHY has come out of hard reset */
-		mdelay(15);
+		mdelay(75);
 	}
 
 	return get_phy_device_by_mask(bus, phy_mask, interface);
